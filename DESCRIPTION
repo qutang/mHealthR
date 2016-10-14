@@ -1,0 +1,18 @@
+Package: mHealthR
+Type: Package
+Title: Data Processing Library for data stored in mhealth specification
+Version: 0.1.0
+Author: Qu Tang
+Maintainer: Qu Tang <tang.q@husky.neu.edu>
+Description: A data processing, visualization and analysis library for mhealth
+    data stored in mhealth specification. Please refer to http://qutang.github.io/
+    mhealth-specification/ for the data format convention.
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
+Imports:
+    stringr,
+    lubridate
+Suggests: 
+    testthat
