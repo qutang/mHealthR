@@ -7,6 +7,7 @@ mhealth.validate = function(file_or_df, file_type) {
     valid = .validate.filename(file_or_df, file_type)
   } else if (is.data.frame(file_or_df)) {
     # validate dataframe
+    valid = .validate.dataframe(file_or_df, file_type)
   } else{
     valid = FALSE
     message(
@@ -150,11 +151,167 @@ mhealth.validate = function(file_or_df, file_type) {
 }
 
 .validate.dataframe = function(df, filetype) {
+  cols = colnames(df)
+  ncols = ncol(df)
+
+  # validate number of columns
+  if (filetype == mhealth$filetype$sensor ||
+      filetype == mhealth$filetype$event) {
+    valid = ncols >= 2
+    if (!valid) {
+      message(
+        sprintf(
+          "\n
+          The dataframe should have at least two columns for %s,
+          it only has: %d",
+          filetype,
+          ncols
+        )
+      )
+      return(valid)
+    }
+  }
+
+  if (filetype == mhealth$filetype$annotation ||
+      filetype == mhealth$filetype$feature) {
+    valid = ncols >= 4
+    if (!valid) {
+      message(
+        sprintf(
+          "\n
+          The dataframe should have at least fhour columns for %s,
+          it only has: %d",
+          filetype,
+          ncols
+        )
+      )
+      return(valid)
+    }
+  }
+
+  # validate column style
+  for (i in 1:ncols) {
+    valid = valid & .validate.columnstyle(cols, i)
+  }
+
   # validate first column to be date
-  valid = is.POSIXct(df[1, 1]) ||
-    is.POSIXlt(df[1, 1]) || is.Date(df[1, 1])
-  if (!valid)
-    message()
+  valid = .validate.columndate(df, 1)
+
+  # validate first column header
+  valid = valid &
+    .validate.columnheader(cols, 1, mhealth$column$TIMESTAMP, filetype)
+
+  # validate start and stop time column header for annotation and feature files
+  if (filetype == mhealth$filetype$feature ||
+      filetype == mhealth$filetype$annotation) {
+    valid = valid &
+      .validate.columnheader(cols, 2, mhealth$column$START_TIME, filetype)
+    valid = valid &
+      .validate.columnheader(cols, 3, mhealth$column$STOP_TIME, filetype)
+    # validate second and third column to be date for annotation and feature file
+    valid = valid & .validate.columndate(df, 2)
+    valid = valid & .validate.columndate(df, 3)
+  }
+
+  # validate the annotation name for annotation file
+  if(filetype == mhealth$filetype$annotation){
+    valid = valid & .validate.columnheader(cols, 4, mhealth$column$ANNOTATION_NAME, filetype)
+    valid = valid & .validate.columntype(df, 4, "character")
+  }
+
+  # validate numerical values for sensor type file
+  if (filetype == mhealth$filetype$sensor) {
+    for (i in 2:ncols) {
+      valid = valid & .validate.columntype(df, i, "numeric")
+    }
+  }
+
+
+
+  return(valid)
+}
+
+.validate.columndate = function(df, i) {
+  valid = is.POSIXct(df[1, i]) ||
+    is.POSIXlt(df[1, i]) || is.Date(df[1, i])
+  pos_str = switch(as.character(i),
+                   "1" = "st",
+                   "2" = "nd",
+                   "3" = "rd",
+                   "th")
+  if (!valid && !is.character(df[1, i])) {
+    message(
+      sprintf(
+        "\n
+        The %d%s column is not a valid date object: %s
+        Supported date object: POSIXlt, POSIXct, Date, %s",
+        i,
+        pos_str,
+        class(df[1, i]),
+        mhealth$format$csv$TIMESTAMP
+      )
+    )
+  }
+
+  if (!valid && is.character(df[1, 1])) {
+    valid = .validate.timestamp(df[1, i], mhealth$format$csv$TIMESTAMP)
+  }
+  return(valid)
+}
+
+.validate.columntype = function(df, i, coltype) {
+  col_class = class(df[1, i])
+  v = col_class == coltype
+  if (!v) {
+    message(sprintf(
+      "\n
+      column %d has wrong data type: %s
+      should be %s",
+      i,
+      col_class,
+      coltype
+    ))
+  }
+  return(v)
+}
+
+.validate.columnheader = function(col_names, i, header, filetype) {
+  v_col = col_names[i] == header
+  pos_str = switch(as.character(i),
+                   "1" = "st",
+                   "2" = "nd",
+                   "3" = "rd",
+                   "th")
+  if (!v_col) {
+    message(
+      sprintf(
+        "\n
+        The %d%s column header is: %s
+        Should be %s for %s type file",
+        i,
+        pos_str,
+        col_names[i],
+        header,
+        filetype
+      )
+    )
+  }
+  return(v_col)
+}
+
+.validate.columnstyle = function(col_names, i) {
+  valid = stringr::str_detect(col_names[i], pattern = mhealth$pattern$csv$COLUMN_STYLE)
+  if (!valid) {
+    message(
+      sprintf(
+        "\n
+        Column style is invalid: %s
+        Column name should only contain uppercase alphabets, digits and '_'",
+        col_names[i]
+      )
+    )
+  }
+  return(valid)
 }
 
 .validate.timestamp = function(ts, format) {
@@ -163,7 +320,7 @@ mhealth.validate = function(file_or_df, file_type) {
     message(
       sprintf(
         "\n
-        Filename's timestamp format is not correct or the timestamp is not a valid date:
+        Timestamp format is not correct or the timestamp string is not a valid date:
         %s,
         The correct format should be: %s",
         ts,

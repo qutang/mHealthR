@@ -9,7 +9,7 @@ test_that("wrong input", {
   expect_false(mhealth.validate(factor("c"), file_type = "event"))
 })
 
-test_that("wrong format", {
+test_that("filename wrong format", {
   expect_false(mhealth.validate("string", file_type = "sensor"), info = "Invalid pattern")
   expect_false(
     mhealth.validate(
@@ -62,7 +62,7 @@ test_that("wrong format", {
   )
 })
 
-test_that("correct format", {
+test_that("filename correct format", {
   expect_true(
     mhealth.validate(
       "datatype.DATAID.2015-12-12-12-12-12-222-P0030.annotation.csv",
@@ -91,4 +91,22 @@ test_that("correct format", {
     ),
     info = "dash in name and ID section"
   )
+})
+
+test_that("dataframe wrong format", {
+  expect_false(mhealth.validate(data.frame(), "sensor"), info = "wrong nunmber of columns for sensor")
+  expect_false(mhealth.validate(data.frame(ts = 1, X = 2), "sensor"), info = "wrong timestamp column")
+  expect_false(mhealth.validate(data.frame(ts = "2015-12-12 12:22:22.334", X = 4, stringsAsFactors = FALSE), "sensor"), info = "wrong timestamp header")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:223:22.334", X = 4, stringsAsFactors = FALSE), "sensor"), info = "wrong timestamp format")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = "1", stringsAsFactors = FALSE), "sensor"), info = "invalid column, should be numeric")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = "2015-12-12 12:22:22.334", stringsAsFactors = FALSE), "annotation"), info = "wrong number of columns for annotation")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = "2015-12-12 12:22:22.334",  Y = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "annotation"), info = "wrong column header for annotation")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_time = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "annotation"), info = "wrong column style")
+})
+
+test_that("dataframe correct format", {
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = 1, stringsAsFactors = FALSE), "sensor"), info = "sensor")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "annotation"), info = "annotation")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "feature"), info = "feature")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "event"), info = "event")
 })

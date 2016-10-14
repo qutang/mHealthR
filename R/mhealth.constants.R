@@ -1,7 +1,7 @@
 #' @export
 mhealth = list(
   column = list(
-    TIMESTAMP = "HEADER_TIMESTAMP",
+    TIMESTAMP = "HEADER_TIME_STAMP",
     START_TIME = "START_TIME",
     STOP_TIME = "STOP_TIME",
     ANNOTATION_NAME = "LABEL_NAME",
@@ -20,6 +20,9 @@ mhealth = list(
   format = list(
     filename = list(
       TIMESTAMP = "%Y-%m-%d-%H-%M-%OS"
+    ),
+    csv = list(
+      TIMESTAMP = "%Y-%m-%d %H:%M:%OS"
     )
   ),
   pattern = list(
@@ -32,6 +35,9 @@ mhealth = list(
       ID = "^[A-Z0-9\\-]+$",
       EXTENSION = "csv",
       OPT_EXTENSION = "gz"
+    ),
+    csv = list(
+      COLUMN_STYLE = "^[A-Z0-9_]+$"
     )
   ),
   example = list(
