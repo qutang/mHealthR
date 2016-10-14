@@ -1,6 +1,5 @@
 #' @name SensorData.io.writeCsv
 #' @title Write sensor data into mhealth folder structure and with mhealth filename convention.
-#' @export
 #' @import lubridate stringr
 #' @param folder the output folder
 #' @param sensorData the input dataframe that matches mhealth specification.
@@ -102,7 +101,6 @@ SensorData.io.writeCsv = function(folder,
 
 #' @name SensorData.io.writeActigraphCsv
 #' @title write sensor data frame into actigraph raw
-#' @export
 SensorData.io.writeActigraphCsv = function(folder,
                                            sensorData,
                                            headerStr,
@@ -134,7 +132,6 @@ SensorData.io.writeActigraphCsv = function(folder,
 #' @note input file must match mhealth specification. Note that the time zone of timestamps will be based on local computer instead of the filename, this needs to be changed.
 #' @param filename full file path of input sensor data file.
 #' @param violate violate file name convention, ignore time zones and other information in file name
-#' @export
 #' @import readr
 SensorData.io.importCsv = function(filename, violate = FALSE) {
   options(digits.secs = 3)
@@ -173,7 +170,6 @@ SensorData.io.importCsv = function(filename, violate = FALSE) {
 #' @name SensorData.importActivPal
 #' @title Import ActivPal Raw data files and load into dataframe as mhealth format.
 #' @import lubridate readr
-#' @export
 #' @param filename full file path of input gt3x binary data file, should have extension "gt3x".
 SensorData.importActivPal = function(filename, header_provided = FALSE) {
   ncols = readr::count_fields(filename, tokenizer_csv(), n_max = 1)
@@ -209,7 +205,6 @@ SensorData.importActivPal = function(filename, header_provided = FALSE) {
 
 #' @name SensorData.io.importActigraphCsv
 #' @title Import and convert Actigraph raw csv files and load into data frame as in mhealth format.
-#' @export
 #' @import readr
 #' @note Please make sure the Actigraph raw csv file has timestamp included. The Actigraph raw csv file is not IMU csv file supported by GT9X.
 #' @param filename full file path of input Actigraph raw csv file.

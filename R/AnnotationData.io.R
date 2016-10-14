@@ -1,6 +1,5 @@
 #' @name AnnotationData.io.writeCsv
 #' @title Write annotation data into mhealth folder structure and with mhealth filename convention.
-#' @export
 #' @import lubridate stringr
 #' @param folder the output folder
 #' @param annotationData the input dataframe that matches mhealth specification.
@@ -94,7 +93,6 @@ AnnotationData.io.writeCsv = function(folder,
 
 #' @name AnnotationData.io.importCsv
 #' @title Import mhealth annotation data file and load into memory as data frame in mhealth format.
-#' @export
 #' @param filename full file path for input annotation data file.
 #' @note Time zone is from local computer for now. But should be changed to use filename in the future.
 AnnotationData.io.importCsv = function(filename, violate = FALSE) {

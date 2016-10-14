@@ -1,7 +1,6 @@
 #' @name utils.parseActigraphHeader
 #' @title parse actigraph header string as list
 #' @import stringr R.utils
-#' @export
 utils.parseActigraphHeader = function(filename, column_names = TRUE) {
   headlines = readLines(filename, n = 10, encoding = "UTF-8")
 
@@ -125,7 +124,6 @@ utils.parseActigraphHeader = function(filename, column_names = TRUE) {
 
 #' @name SensorData.formatActigraphHeader
 #' @title create a character vector representing each line of the actigraph csv header
-#' @export
 #' @import stringr
 utils.formatActigraphHeader = function(startTime,
                                                downloadTime,

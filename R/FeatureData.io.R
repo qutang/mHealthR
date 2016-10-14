@@ -1,6 +1,5 @@
 #' @name FeatureData.io.writeCsv
 #' @title Write sensor data into mhealth folder structure and with mhealth filename convention.
-#' @export
 #' @import lubridate stringr
 #' @param folder the output folder
 #' @param featureData the input dataframe that matches mhealth specification.
@@ -107,7 +106,6 @@ FeatureData.io.writeCsv = function(folder,
 #' @note input file must match mhealth specification. Note that the time zone of timestamps will be based on local computer instead of the filename, this needs to be changed.
 #' @param filename full file path of input sensor data file.
 #' @param violate violate file name convention, ignore time zones and other information in file name
-#' @export
 #' @import readr
 FeatureData.io.importCsv = function(filename, violate = FALSE) {
   options(digits.secs = 3)
@@ -155,7 +153,6 @@ FeatureData.io.importCsv = function(filename, violate = FALSE) {
 
 #' @name FeatureData.io.importActigraphCountCsv
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
-#' @export
 #' @import readr
 #' @param filename full file path of input Actigraph count csv file.
 FeatureData.io.importActigraphCountCsv = function(filename, axes = c(2, 3, 4), count_col_name = "ACTIGRAPH_COUNT") {

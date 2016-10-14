@@ -6,7 +6,6 @@
 #' @param new_column new column's name
 #' @param drop_old return data frame only with the transformed new column
 #' @param fun function that applies transformation for a row of selected columns.
-#' @export
 #' @import dplyr
 mhealth.transform = function(df, columns, new_column = NULL, drop_old = TRUE, transform_func){
   if(is.null(new_column)) new_column = deparse(substitute(transform_func))
