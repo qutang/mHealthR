@@ -26,8 +26,12 @@ mhealth = list(
     filename = list(
       TIMESTAMP = "[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{3}",
       TIMEZONE = "[MP]+[0-9]{4}",
-      FILENAME = "[A-Za-z0-9\\-]+\\.[A-Z0-9\\-]+\\.[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{3}-[MP]+[0-9]{4}\\.(sensor|annotation|event|feature|log|note|class|stat)\\.csv(\\.gz)*",
-      FILETYPE = "sensor|annotation|event|feature|log|note|class|stat"
+      FILENAME = "^[A-Za-z0-9\\-]+\\.[A-Z0-9\\-]+\\.[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{3}-[MP]+[0-9]{4}\\.(sensor|annotation|event|feature|log|note|class|stat)\\.csv(\\.gz)*$",
+      FILETYPE = "^sensor|annotation|event|feature|log|note|class|stat$",
+      NAME = "^[A-Za-z0-9\\-]+$",
+      ID = "^[A-Z0-9\\-]+$",
+      EXTENSION = "csv",
+      OPT_EXTENSION = "gz"
     )
   ),
   example = list(
