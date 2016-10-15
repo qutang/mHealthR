@@ -1,0 +1,45 @@
+# mHealthR package
+
+#### Author: [Qu Tang](http://qutang.github.io)
+
+#### Version: `r library(mHealthR);packageVersion(pkg = "mHealthR")`
+
+---
+
+## Intro
+
+This package is used to *validate*, *read*, *write*, *plot*, *convert* and *manipulate* annotated mobile health data (such as physical and phisiological sensor data) store in [mhealth specification](https://qutang.github.io/project/mhealth-specification/).
+
+## Features
+
+* Work with dataframe only
+
+* Minimal API
+
+* String based iput argument
+
+## Installation
+
+```{r, eval=FALSE, include=TRUE}
+# install.packages("devtools")
+devtools::install_github("qutang/mHealthR")
+```
+
+## Examples
+
+### Insightful validation
+
+#### 1. Validate filename
+```{r, eval=FALSE, include=FALSE}
+library(mHealthR)
+```
+
+```{r eval = TRUE, echo=TRUE, message=TRUE, warning=FALSE, comment=NA, INCLUDE=TRUE}
+result = mhealth.validate("name_type.iD.2015-13-12-12-32-12-222-M0500.annotation.csv.gz", file_type = "sensor")
+```
+
+#### 2. Validate dataframe
+```{r eval = TRUE, echo=TRUE, message=TRUE, warning=FALSE, comment=NA, INCLUDE=TRUE}
+result = mhealth.validate(mtcars[1:2], file_type = "sensor")
+```
+
