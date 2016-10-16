@@ -106,7 +106,7 @@ test_that("dataframe wrong format", {
 
 test_that("dataframe correct format", {
   expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = 1, stringsAsFactors = FALSE), "sensor"), info = "sensor")
-  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "annotation"), info = "annotation")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", stringsAsFactors = FALSE), "annotation"), info = "annotation")
   expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "feature"), info = "feature")
   expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "event"), info = "event")
 })
