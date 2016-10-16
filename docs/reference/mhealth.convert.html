@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference. mHealthR</title>
+<title>mhealth.convert. mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -66,43 +66,18 @@
       </header>
 
       <div class="page-header">
-  <h1>Function reference <small>version&nbsp;0.3.0</small></h1>
+  <h1>Convert dataframe to mhealth specification</h1>
 </div>
 
 <div class="row">
   <div class="col-md-9">
-    <div class="section ">
-      <h2>mHealth</h2>
-      <p class="section-desc"><p>Functions related to mhealth specification</p></p>
 
-      <dl class="dl-horizontal">
-        <dt><a href="mhealth.convert.html">mhealth.convert</a></dt>
-        <dd>Convert dataframe to mhealth specification</dd>
-        <dt><a href="mhealth.parseAnnotatorId.html">mhealth.parseAnnotatorId</a></dt>
-        <dd>Get annotator Id from annotation file name</dd>
-        <dt><a href="mhealth.parseOntologyId.html">mhealth.parseOntologyId</a></dt>
-        <dd>Get ontology Id from annotation file name</dd>
-        <dt><a href="mhealth.read.html">mhealth.read</a></dt>
-        <dd>Write files in mhealth specification into dataframe</dd>
-        <dt><a href="mhealth.transform.html">mhealth.transform</a></dt>
-        <dd>transform function for mhealth type of data</dd>
-        <dt><a href="mhealth.validate.html">mhealth.validate</a></dt>
-        <dd>validate filename or dataframe against mhealth specification</dd>
-        <dt><a href="mhealth.write.html">mhealth.write</a></dt>
-        <dd>Write dataframe to csv in mhealth specification</dd>
-      </dl>
-    </div>
-    <div class="section ">
-      <h2>timezone</h2>
-      <p class="section-desc"><p>Utility to get time zone information</p></p>
 
-      <dl class="dl-horizontal">
-        <dt><a href="timezone.to_abbr.html">timezone.to_abbr</a></dt>
-        <dd>convert utc offset/utc offset in hours/utc offset in seconds to location name</dd>
-        <dt><a href="timezone.to_location.html">timezone.to_location</a></dt>
-        <dd>convert utc offset/utc offset in hours/utc offset in seconds to location name</dd>
-      </dl>
-    </div>
+    <pre><span class='fu'>mhealth.convert</span>(<span class='no'>df</span>, <span class='no'>timestamp_col</span>, <span class='kw'>datetime_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
+  <span class='no'>file_type</span>, <span class='kw'>start_time_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>stop_time_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>annotation_name_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>other_cols_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+              </div>
+  <div class="col-md-3">
   </div>
 </div>
 
