@@ -12,6 +12,12 @@ mhealth.convert = function(df,
                            stop_time_col = NULL,
                            annotation_name_col = NULL,
                            other_cols_order = NULL) {
+  if(missing(timestamp_col)){
+    message("\n
+            timestamp_col is missing")
+    return(NULL)
+  }
+
   orders = c(mhealth$column$TIMESTAMP)
 
   # timestamp column
@@ -22,6 +28,7 @@ mhealth.convert = function(df,
     timezone = timezone,
     new_name = mhealth$column$TIMESTAMP
   )
+  if(is.null(df)) return(NULL)
 
   if (file_type == mhealth$filetype$sensor ||
       file_type == mhealth$filetype$event) {
@@ -33,6 +40,7 @@ mhealth.convert = function(df,
       # convert all to numeric
       for(n in setdiff(names(df), mhealth$column$TIMESTAMP)){
         df = .convert.column_to(df, col = n, class_type = "numeric")
+        if(is.null(df)) return(NULL)
       }
     }
   } else if (file_type == mhealth$filetype$annotation ||
@@ -44,6 +52,8 @@ mhealth.convert = function(df,
       timezone = timezone,
       new_name = mhealth$column$START_TIME
     )
+    if(is.null(df)) return(NULL)
+
     df = .convert.datecolumn(
       df,
       stop_time_col,
@@ -51,12 +61,15 @@ mhealth.convert = function(df,
       timezone = timezone,
       new_name = mhealth$column$STOP_TIME
     )
+    if(is.null(df)) return(NULL)
+
     orders = c(orders,
                mhealth$column$START_TIME,
                mhealth$column$STOP_TIME)
     if (file_type == mhealth$filetype$annotation) {
       # convert annotation column to string and rename
       df = .convert.column_to(df, annotation_name_col, class_type = "character", new_name = mhealth$column$ANNOTATION_NAME)
+      if(is.null(df)) return(NULL)
       orders = c(orders, mhealth$column$ANNOTATION_NAME)
     }
   }
@@ -64,30 +77,39 @@ mhealth.convert = function(df,
   # reorder according to mhealth specification
   if (!is.null(other_cols_order)) {
     if (is.character(other_cols_order)) {
-      orders = c(orders, other_cols_order)
+      orders = c(orders, setdiff(other_cols_order, orders))
     } else if (is.numeric(other_cols_order)) {
-      orders = c(orders, names(df)[other_cols_order])
-    } else{
-      stop(sprintf(
+      orders = c(orders, setdiff(names(df)[other_cols_order], orders))
+    } else if (length(other_cols_order) == 1 && is.na(other_cols_order)){
+
+    }
+    else{
+      message(sprintf(
         "\n
         Unknown type in other cols order: %s",
         class(other_cols_order)
       ))
+      return(NULL)
     }
   }else{
     orders = c(orders, setdiff(names(df), orders))
   }
+  orders = na.omit(orders)
+  orders = intersect(orders, names(df))
+  other_cols_order = unique(other_cols_order)
   df = df[orders]
 
   # convert factor columns to character
   for(n in names(df)[-1]){
     if(is.factor(df[1, n])){
       df = .convert.column_to(df, n, class_type = "character")
+      if(is.null(df)) return(NULL)
     }
   }
 
   # convert all column headers to uppercase, and exclude illegal characters
   df = .convert.legit_column(df)
+  if(is.null(df)) return(NULL)
 
   return(df)
 }
@@ -96,14 +118,16 @@ mhealth.convert = function(df,
   if (class(col) == "numeric" ||
       class(col) == "character") {
     # col should be a number and character
-    valid = class(try(df[col])) != "try-error"
+    if(is.character(col)) valid = length(which(names(df) == col)) != 0
+    else if(is.numeric(col)) valid = col >= 1 & col <= ncol(df)
     if (!valid)
     {
-      stop(sprintf(
+      message(sprintf(
         "\n
         Can't find column, make sure the column index/name is correct: %s",
         col
       ))
+      return(NULL)
     } else{
       # convert to column with new class type
       if (class_type == "character" || class_type == "numeric") {
@@ -112,15 +136,18 @@ mhealth.convert = function(df,
         })
       }
       if(!is.null(new_name)){
-        df = .convert.rename_column(df, col, new_name)
+        if(is.character(col)) old_name = col
+        else if(is.numeric(col)) old_name = names(df)[col]
+        df = .convert.rename_column(df, old_name, new_name)
       }
     }
   } else{
-    stop(sprintf(
+    message(sprintf(
       "\n
       Column name is not a numerical index or name string, it is %s",
-      col
+      class(col)
     ))
+    return(NULL)
   }
   return(df)
 }
@@ -133,16 +160,18 @@ mhealth.convert = function(df,
   if (class(timestamp) == "numeric" ||
       class(timestamp) == "character") {
     # timestamp should be a number and character
-    valid = class(try(df[timestamp])) != "try-error"
+    if(is.character(timestamp)) valid = length(which(names(df) == timestamp)) != 0
+    else if(is.numeric(timestamp)) valid = timestamp >= 1 & timestamp <= ncol(df)
     if (!valid)
     {
-      stop(
+      message(
         sprintf(
           "\n
           Can't find column, make sure the column index/name is correct: %s",
           timestamp
         )
       )
+      return(NULL)
     } else{
       # timestamp values must be valid date
       if (is.character(df[1, timestamp]) &
@@ -150,15 +179,17 @@ mhealth.convert = function(df,
           is.character(timezone)) {
         valid = .validate.columndate(df, timestamp, datetime_format = datetime_format)
         if (!valid) {
-          stop()
+          message("Not a valid date column")
+          return(NULL)
         }
       } else{
-        stop(
+        message(
           sprintf(
             "\n
-            You must provide your timestamp's datetime format in string for conversion"
+            You must provide your timestamp column, datetime format and time zone as character for conversion"
           )
           )
+        return(NULL)
       }
       if (valid) {
         # convert to mhealth timestamp column
@@ -167,42 +198,50 @@ mhealth.convert = function(df,
         } else{
           df[timestamp] = df[[timestamp]]
         }
-        df = .convert.rename_column(df, timestamp, new_name)
+        old_name = timestamp
+        if(is.numeric(timestamp)){
+          old_name = names(df)[timestamp]
+        }
+        df = .convert.rename_column(df, old_name, new_name)
       }
       }
 } else{
-  stop(sprintf(
+  message(sprintf(
     "\n
     Column name is not a numerical index or name string, it is %s",
     timestamp
   ))
+  return(NULL)
 }
   return(df)
 }
 
 .convert.rename_column  = function(df, old_name, new_name) {
   if (!is.character(new_name)) {
-    stop(sprintf("\n
+    message(sprintf("\n
                  The new name has to be a string, but it is %s",
                  class(new_name)))
+    return(NULL)
   }
   if (is.character(old_name)) {
     if (class(try(df[old_name])) != "try-error") {
       names(df)[names(df) == old_name] <- new_name
       return(df)
     } else{
-      stop(sprintf(
+      message(sprintf(
         "\n
         The column refers to does not exist, column name/index: %s",
         old_name
       ))
+      return(NULL)
     }
   } else{
-    stop(sprintf(
+    message(sprintf(
       "\n
       The refered column name is not a string, it is %s",
       class(old_name)
     ))
+    return(NULL)
   }
   }
 

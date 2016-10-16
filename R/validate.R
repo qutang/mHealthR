@@ -26,7 +26,7 @@
     )
   }
 
-  if (!valid && is.character(df[1, 1])) {
+  if (!valid && is.character(df[1, i])) {
     valid = .validate.timestamp(df[1, i], datetime_format)
   }
   return(valid)
