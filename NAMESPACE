@@ -2,6 +2,7 @@
 
 S3method(transform,magnitude)
 export(mhealth)
+export(mhealth.convert)
 export(mhealth.read)
 export(mhealth.validate)
 export(mhealth.write)
