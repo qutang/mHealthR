@@ -1,9 +1,21 @@
 reference:
-  - title: "mHealth"
+  - title: "mHealth core"
     desc: >
-      Functions related to mhealth specification
+      Data validation, io and conversion to mhealth specification
     contents:
-      - starts_with("mhealth")
+      - mhealth.validate
+      - mhealth.read
+      - mhealth.write
+      - mhealth.convert
+
+  - title: "mHealth manipulation"
+    desc: >
+      Data operations for dataframes in mhealth specification
+    contents:
+      - mhealth.segment
+      - mhealth.clip
+      - mhealth.transform
+
   - title: "timezone"
     desc: "Utility to get time zone information"
     contents:
