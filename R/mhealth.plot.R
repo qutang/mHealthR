@@ -36,15 +36,19 @@ mhealth.plot = function(p = NULL,
     p = .plot.range_numeric(p, md, interactive)
     # deal with categorical columns
   } else if (file_type == mhealth$filetype$annotation) {
-    df_range = df[c(2, 3, 4)]
+    cols = c(2,3,4, which(names(df) == divide_by))
+    df_range = df[cols]
     p = .plot.range_categoric(p, df_range, interactive)
   }
-  p = p + theme_minimal(base_size = 9)
+
+  p = p + theme_bw(base_size = 9)
   p = p + theme(legend.position = "top")
   p = p + xlab(label = "") + ylab(label = "")
   if (is.character(divide_by)) {
+    p = p + theme(axis.text.x=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), strip.background = element_blank())
     p = p + facet_wrap(divide_by, ncol = 4, scales = "free_x")
   }
+
   return(p)
 }
 
@@ -67,8 +71,13 @@ mhealth.plot = function(p = NULL,
 
 .plot.range_categoric = function(p, df, interactive, jitter = TRUE) {
   categories = unique(df[, 3])
-  ypos = jitter(rep(0, length(categories)), amount = length(categories) /
-                  3)
+  if(jitter){
+    ypos = jitter(rep(0, length(categories)), amount = length(categories) /
+                    3)
+  }else{
+    ypos = rep(0, length(categories))
+  }
+
   df["ypos"] = sapply(df[, 3], function(x) {
     ypos[x == categories]
   }, simplify = TRUE)
