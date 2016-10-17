@@ -4,7 +4,7 @@
 #' @param aspect_ratio width/height
 #' @param interactive whether to support zoom in, scrolling, tooltip
 #' @export
-#' @import ggplot2 highcharter reshape2
+#' @import ggplot2 reshape2
 
 mhealth.plot = function(p = NULL,
                         df,
