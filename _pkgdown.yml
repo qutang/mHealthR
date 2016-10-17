@@ -8,3 +8,25 @@ reference:
     desc: "Utility to get time zone information"
     contents:
       - starts_with("timezone")
+
+articles:
+  - title: "Usage examples for mhealth"
+    desc: >
+      Examples of using mhealth object and mhealth functions
+    contents:
+    - mhealth-object
+
+navbar:
+  title: mHealthR
+  type: default
+  left:
+  - text: Home
+    href: index.html
+  - text: mhealth object
+    href: articles/mhealth-object.html
+  - text: Reference
+    href: reference/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/qutang/mhealthr
+

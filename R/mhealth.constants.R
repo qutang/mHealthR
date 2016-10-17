@@ -5,7 +5,8 @@ mhealth = list(
     START_TIME = "START_TIME",
     STOP_TIME = "STOP_TIME",
     ANNOTATION_NAME = "LABEL_NAME",
-    PARTICIPANT_ID = "PARTICIPANT_ID"
+    PARTICIPANT_ID = "PARTICIPANT_ID",
+    SEGMENT = "SEGMENT"
   ),
   filetype = list(
     sensor = "sensor",

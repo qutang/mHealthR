@@ -1,0 +1,49 @@
+---
+title: "mhealth object"
+author: "Qu Tang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+library(mHealthR)
+```
+
+`mhealth` named list stores constants in a hierarchical structure. You can run `str(mhealth)` to display them compactly.
+
+## mhealth$filetype
+
+Use `mhealth$filetype` sub list to query available file types which are often required for other `mhealth` functions.
+```{r, echo=FALSE, comment=NA}
+str(mhealth$filetype)
+```
+
+As an example,
+```{r, eval=FALSE}
+# validate sensor file
+mhealth.validate(filename, mhealth$filetype$sensor)
+```
+
+## mhealth$format
+
+Use `mhealth$format` sub list to query datetime and other format for mhealth specification.
+```{r, echo=FALSE, comment=NA}
+str(mhealth$format)
+```
+
+## mhealth$example
+
+Use `mhealth$example` sub list to examples of filenames or csv files for mhealth specification.
+
+### Examples of filename (`mhealth$example$filename`)
+```{r, echo=FALSE, comment=NA}
+str(mhealth$example$filename)
+```
+
+### Examples of csv format (not available)
+
+
