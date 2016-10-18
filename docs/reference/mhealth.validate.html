@@ -81,8 +81,14 @@
   <div class="col-md-9">
 
 
-    <pre><span class='fu'>mhealth.validate</span>(<span class='no'>file_or_df</span>, <span class='no'>file_type</span>)</pre>
-              </div>
+    <pre><span class='fu'>mhealth.validate</span>(<span class='no'>file_or_df</span>, <span class='no'>file_type</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2>Arguments</h2>
+    <dl class="dl-horizontal">
+      <dt>group_cols</dt>
+      <dd>numeric or character vector specify columns to be validated as group variable. Only feasible for dataframe validation. Default is NULL, meaning there is no group columns in the dataframe.</dd>
+    </dl>
+          </div>
   <div class="col-md-3">
   </div>
 </div>

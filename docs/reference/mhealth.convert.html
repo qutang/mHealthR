@@ -74,17 +74,32 @@
       </header>
 
       <div class="page-header">
-  <h1>Convert dataframe to mhealth specification</h1>
+  <h1>mhealth.convert</h1>
 </div>
 
 <div class="row">
   <div class="col-md-9">
+    
+    <p>Convert dataframe to mhealth specification. The column order of converted dataframe would be required_cols, group_cols. Columns that are not specified in the input arguments will be dropped.</p>
+    
 
-
-    <pre><span class='fu'>mhealth.convert</span>(<span class='no'>df</span>, <span class='no'>timestamp_col</span>, <span class='kw'>datetime_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
-  <span class='no'>file_type</span>, <span class='kw'>start_time_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>stop_time_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>annotation_name_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>other_cols_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-              </div>
+    <pre><span class='fu'>mhealth.convert</span>(<span class='no'>df</span>, <span class='no'>file_type</span>, <span class='no'>required_cols</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>datetime_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
+    
+    <h2>Arguments</h2>
+    <dl class="dl-horizontal">
+      <dt>file_type</dt>
+      <dd>mhealth specification file types, see `mhealth$filetype` for all supported types</dd>
+      <dt>required_cols</dt>
+      <dd>the required columns of file types that are in order. E.g. for annotation, timestamp, start and end time and annotation name columns are required in the order; for sensor, timestamp and necessary numeric columns are required; for feature, timestamp, start and end time and numeric or categoric features are required; for event, timestamp, start and end time and numeric or categoric info columns are required.</dd>
+      <dt>group_cols</dt>
+      <dd>the columns used for indexing or grouping. Will be converted to numeric or if not, character. Default is null, which means no group columns.</dd>
+      <dt>datetime_format</dt>
+      <dd>in string. Used to convert tiemstamp and start and stop time columns to date object</dd>
+      <dt>timezone</dt>
+      <dd>in location string. Used to convert timestamp and start and stop time columns to date object</dd>
+    </dl>
+          </div>
   <div class="col-md-3">
   </div>
 </div>
