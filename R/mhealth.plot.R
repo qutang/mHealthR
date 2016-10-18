@@ -11,7 +11,7 @@ mhealth.plot = function(p = NULL,
                         file_type,
                         interactive = FALSE,
                         divide_by = NULL) {
-  valid = mhealth.validate(df, file_type)
+  valid = mhealth.validate(df, file_type = file_type, group_cols = divide_by)
   if (!valid)
     return(NULL)
   if (file_type == mhealth$filetype$sensor) {
