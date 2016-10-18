@@ -101,7 +101,9 @@ test_that("dataframe wrong format", {
   expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = "1", stringsAsFactors = FALSE), "sensor"), info = "invalid column, should be numeric")
   expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = "2015-12-12 12:22:22.334", stringsAsFactors = FALSE), "annotation"), info = "wrong number of columns for annotation")
   expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = "2015-12-12 12:22:22.334",  Y = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "annotation"), info = "wrong column header for annotation")
-  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_time = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "annotation"), info = "wrong column style")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_time = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = 1, stringsAsFactors = FALSE), "annotation"), info = "wrong column style")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", INDEX = NA, stringsAsFactors = FALSE), file_type = "annotation", group_cols = c(5)), info = "wrong group column format")
+  expect_false(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", INDEX = 1, stringsAsFactors = FALSE), file_type = "annotation", group_cols = c(8)), info = "non-existing group column")
 })
 
 test_that("dataframe correct format", {
@@ -109,4 +111,8 @@ test_that("dataframe correct format", {
   expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", stringsAsFactors = FALSE), "annotation"), info = "annotation")
   expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "feature"), info = "feature")
   expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", Z = 1, stringsAsFactors = FALSE), "event"), info = "event")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", INDEX = 1, stringsAsFactors = FALSE), file_type = "annotation", group_cols = c(5)), info = "numeric group column")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", INDEX = 1, stringsAsFactors = FALSE), file_type = "annotation", group_cols = c("INDEX")), info = "string group column name")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", START_TIME = "2015-12-12 12:22:22.334",  STOP_TIME = "2015-12-12 12:22:22.334", LABEL_NAME = "walking", INDEX = 1, stringsAsFactors = FALSE), file_type = "annotation", group_cols = c(1, 5)), info = "ignore required columns in group columns")
+  expect_true(mhealth.validate(data.frame(HEADER_TIME_STAMP = "2015-12-12 12:22:22.334", X = 1.2, Y = 2.4, INDEX = 1, SEGMENT = "A", stringsAsFactors = FALSE), file_type = "sensor", group_cols = c('INDEX', 'SEGMENT')), info = "multiple group columns and string group column")
 })

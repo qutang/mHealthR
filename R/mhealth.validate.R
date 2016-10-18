@@ -1,13 +1,14 @@
 #' @name mhealth.validate
 #' @title validate filename or dataframe against mhealth specification
+#' @param group_cols numeric or character vector specify columns to be validated as group variable. Only feasible for dataframe validation. Default is NULL, meaning there is no group columns in the dataframe.
 #' @import stringr
 #' @export
-mhealth.validate = function(file_or_df, file_type) {
+mhealth.validate = function(file_or_df, file_type, group_cols = NULL) {
   if (is.character(file_or_df) & length(file_or_df) == 1) {
     valid = .validate.filename(file_or_df, file_type)
   } else if (is.data.frame(file_or_df)) {
     # validate dataframe
-    valid = .validate.dataframe(file_or_df, file_type)
+    valid = .validate.dataframe(file_or_df, file_type, group_cols)
   } else{
     valid = FALSE
     message(
@@ -150,9 +151,15 @@ mhealth.validate = function(file_or_df, file_type) {
   return(valid)
 }
 
-.validate.dataframe = function(df, filetype) {
+.validate.dataframe = function(df, filetype, group_cols) {
+  required_cols = c(1)
   cols = colnames(df)
   ncols = ncol(df)
+  if(filetype == mhealth$filetype$annotation){
+    required_cols = 1:4
+  }else if(filetype == mhealth$filetype$feature){
+    required_cols = 1:3
+  }
 
   # validate number of columns
   if (filetype == mhealth$filetype$sensor ||
@@ -219,14 +226,56 @@ mhealth.validate = function(file_or_df, file_type) {
     valid = valid & .validate.columntype(df, 4, "character")
   }
 
+  # convert group cols to numeric vector
+  if(is.character(group_cols)){
+    group_cols = sapply(group_cols, function(x){which(x == names(df))}, simplify = TRUE)
+  }else if(is.numeric(group_cols)){
+  }else{
+    message(sprintf(
+      "\n
+      group columns are not valid vector: %s
+      So it will be ignored",
+      class(group_cols)
+    ))
+    group_cols = NULL
+  }
+
+  # validate group columns to be numeric or character
+  if(!is.null(group_cols)){
+    group_cols = setdiff(group_cols, required_cols)
+    result = sapply(group_cols, function(x){
+      if(x > ncol(df) || x < 1){
+        message(sprintf(
+          "\n
+          group column index %d does not exist",
+          x
+        ))
+        return(FALSE)
+      }
+      if(!is.character(df[1,x]) && !is.numeric(df[1,x]) && !is.integer(df[1,x])){
+        message(sprintf(
+          "\n
+          group column %s is not in the correct format: %s",
+          names(df)[x], class(df[1, x])
+        ))
+        return(FALSE)
+      }
+      return(TRUE)
+    })
+    valid = valid & all(result)
+  }
+
   # validate numerical values for sensor type file
   if (filetype == mhealth$filetype$sensor) {
-    for (i in 2:ncols) {
+    validate_cols = 2:ncols
+    if(!is.null(group_cols)){
+      validate_cols = setdiff(2:ncols, group_cols)
+    }
+
+    for (i in validate_cols) {
       valid = valid & .validate.columntype(df, i, "numeric")
     }
   }
-
-
 
   return(valid)
 }
