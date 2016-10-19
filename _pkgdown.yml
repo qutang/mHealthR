@@ -16,6 +16,12 @@ reference:
       - mhealth.clip
       - mhealth.transform
 
+  - title: "mHealth visualization"
+    desc: >
+      Data visualization for dataframes in mhealth specification
+    contents:
+      - mhealth.plot
+
   - title: "timezone"
     desc: "Utility to get time zone information"
     contents:
