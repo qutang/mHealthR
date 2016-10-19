@@ -1,7 +1,7 @@
 Package: mHealthR
 Type: Package
 Title: Data Processing Library for data stored in mhealth specification
-Version: 0.5.1
+Version: 0.5.2
 Author: Qu Tang
 Maintainer: Qu Tang <tang.q@husky.neu.edu>
 Description: A data processing, visualization and analysis library for mhealth
