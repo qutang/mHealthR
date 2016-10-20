@@ -20,7 +20,7 @@ reference:
     desc: >
       Data visualization for dataframes in mhealth specification
     contents:
-      - mhealth.plot
+      - starts_with("mhealth.plot")
 
   - title: "timezone"
     desc: "Utility to get time zone information"
