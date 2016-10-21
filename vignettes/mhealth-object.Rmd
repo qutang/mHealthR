@@ -1,13 +1,9 @@
 ---
 title: "mhealth object"
-author: "Qu Tang"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: html_notebook
 ---
+
+(see in [R notebook](mhealth-object.nb.html))
 
 ```{r, include=FALSE}
 library(mHealthR)

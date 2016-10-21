@@ -199,9 +199,7 @@ mhealth.convert = function(df,
     } else{
       # convert to column with new class type
       if (class_type == "character" || class_type == "numeric") {
-        df[col] = lapply(df[[col]], function(x) {
-          return(as(x, class_type))
-        })
+        df[col] = as(df[[col]], class_type)
       }
       if(!is.null(new_name)){
         if(is.character(col)) old_name = col

@@ -1,3 +1,6 @@
+template:
+  bootswatch: flatly
+
 reference:
   - title: "mHealth core"
     desc: >
@@ -40,6 +43,8 @@ navbar:
   left:
   - text: Home
     href: index.html
+  - text: Visualization Examples
+    href: articles/mhealth-examples.html
   - text: mhealth object
     href: articles/mhealth-object.html
   - text: Reference
