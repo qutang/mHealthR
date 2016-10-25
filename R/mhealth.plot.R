@@ -2,8 +2,9 @@
 #' @title Plot time series with annotations
 #' @param file_types list of file_types for each input dataframes
 #' @param group_cols group column names in character vector to divide the plot into subplot. All dataframes should share the same group column names.
-#' @param select_cols list of selected cols for each input data frames to be plotted
-#' @param scales "free_y", "fixed_y"
+#' @param select_cols list of selected cols for each input data frames to be plotted.
+#' @param ncols number of columns in the subplot layout per page. Default is 4 columns.
+#' @param nrows number of rows in the subplot layout per page. Default is NULL, which will be calculated automatically by `ncols`, so that ncols * nrows >= total number of subplots. But it should not exceed 6 per page.
 #' @export
 #' @import ggplot2 reshape2 plyr gridExtra
 
@@ -11,7 +12,8 @@ mhealth.plot_timeseries <- function(dfs,
                                     file_types,
                                     select_cols,
                                     group_cols = NULL,
-                                    ncols = 4) {
+                                    ncols = 4,
+                                    nrows = NULL) {
   # validate input arguments
   if (length(dfs) > 1) {
     stopifnot(is.list(dfs))
@@ -25,31 +27,35 @@ mhealth.plot_timeseries <- function(dfs,
   stopifnot(length(dfs) >= length(file_types) &&
               length(dfs) >= length(select_cols))
 
-  n = length(dfs)
+  n_total = length(dfs)
 
   v_max = c()
   v_min = c()
-  for(i in 1:n){
+  for (i in 1:n_total) {
     temp_df = dfs[[i]][.convert.column_input(dfs[[i]], select_cols[[i]])]
-    if(file_types[i] == mhealth$filetype$sensor){
+    if (file_types[i] == mhealth$filetype$sensor) {
       v_max = max(v_max, max(temp_df))
       v_min = min(v_min, min(temp_df))
     }
   }
-  if(is.null(v_max) || is.null(v_min)){
+  if (is.null(v_max) || is.null(v_min)) {
     range = NULL
-  }else{
+  } else{
     range = c(floor(v_min), ceiling(v_max))
   }
 
 
-  tz = lubridate::tz(dfs[[1]][1,1])
+  tz = lubridate::tz(dfs[[1]][1, 1])
 
   if (is.null(group_cols)) {
     # single plot
     p = ggplot()
-    for (i in 1:n) {
-      p = .plot.timeseries(p, dfs[[i]], select_cols[[i]], file_type = file_types[[i]], range = range)
+    for (i in 1:n_total) {
+      p = .plot.timeseries(p,
+                           dfs[[i]],
+                           select_cols[[i]],
+                           file_type = file_types[[i]],
+                           range = range)
     }
     p <- p + theme_bw(base_size = 9)
     p <- p + theme(legend.position = "top")
@@ -60,7 +66,9 @@ mhealth.plot_timeseries <- function(dfs,
       seg = sapply(dfs, function(df) {
         return(unique(df[[col]]))
       }, simplify = FALSE)
-      seg = Reduce(function(x, y){unique(c(x,y))}, seg[[1]])
+      seg = Reduce(function(x, y) {
+        unique(c(x, y))
+      }, seg[[1]])
       return(seg)
     })
     segs = expand.grid(seg_list, stringsAsFactors = FALSE)
@@ -69,19 +77,28 @@ mhealth.plot_timeseries <- function(dfs,
       p = ggplot()
       x_min = NA
       x_max = NA
-      for (i in 1:n) {
+      for (i in 1:n_total) {
         g_cols = .convert.column_input(dfs[[i]], group_cols)
         mask = Reduce(function(x, y) {
           x & y
         }, lapply(group_cols, function(col) {
           dfs[[i]][[col]] == seg[[col]]
         }))
-        df = dfs[[i]][mask,]
-        p = .plot.timeseries(p, df, select_cols[[i]], file_type = file_types[[i]], range = range)
-        if(file_types[[i]] == mhealth$filetype$sensor){
+        df = dfs[[i]][mask, ]
+        if (all(!mask))
+          return(NA)
+        if (i == 1) {
+          title_label = stringr::str_c(df[1, g_cols], collapse = "-")
+        }
+        p = .plot.timeseries(p,
+                             df,
+                             select_cols[[i]],
+                             file_type = file_types[[i]],
+                             range = range)
+        if (file_types[[i]] == mhealth$filetype$sensor) {
           x_min = min(x_min, df[[mhealth$column$TIMESTAMP]][1], na.rm = TRUE)
           x_max = max(x_max, df[[mhealth$column$TIMESTAMP]][nrow(df)], na.rm = TRUE)
-        }else if(file_types[[i]] == mhealth$filetype$annotation){
+        } else if (file_types[[i]] == mhealth$filetype$annotation) {
           x_min = min(x_min, df[[mhealth$column$START_TIME]][1], na.rm = TRUE)
           x_max = max(x_max, df[[mhealth$column$STOP_TIME]][nrow(df)], na.rm = TRUE)
         }
@@ -97,9 +114,11 @@ mhealth.plot_timeseries <- function(dfs,
       p <- p + theme_bw(base_size = 9)
       p <- p + theme(legend.position = "top")
 
-      p <- p + xlab(label = xlabel) + ylab(label = "")
+      p <-
+        p + xlab(label = xlabel) + ylab(label = "") + ggtitle(title_label)
       p <- p + theme(
-        axis.title.x = element_text(size=5.5),
+        axis.title.x = element_text(size = 5.5),
+        title = element_text(size = 5.5),
         axis.text.x = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
@@ -107,13 +126,31 @@ mhealth.plot_timeseries <- function(dfs,
       )
       return(p)
     })
-    return(gridExtra::marrangeGrob(p_list, ncol = ncols, nrow = min(ceiling(nrow(segs) / ncols), 6)))
-    } else{
-      stop("group_cols is illegal input, must be character vector with column names")
+    p_result = list()
+    i = 1
+    for (p in p_list) {
+      if (is.ggplot(p)) {
+        p_result[[i]] = p
+        i = i + 1
+      }
     }
+    if(is.null(nrows)){
+      nrows = min(ceiling(length(p_result)) / ncols, 6)
+    }else{
+      nrows = min(nrows, 6)
+    }
+
+    return(gridExtra::marrangeGrob(
+      p_result,
+      ncol = ncols,
+      nrow = nrows
+    ))
+  } else{
+    stop("group_cols is illegal input, must be character vector with column names")
+  }
 }
 
-.plot.timeseries = function(p, df, select_cols, file_type, range = NULL){
+.plot.timeseries = function(p, df, select_cols, file_type, range = NULL) {
   s_cols = .convert.column_input(df, select_cols)
 
   if (file_type == mhealth$filetype$sensor) {
@@ -136,58 +173,71 @@ mhealth.plot_timeseries <- function(dfs,
   return(p)
 }
 
-  .plot.numeric_column <- function(p, df) {
-    df <- reshape2::melt(df,
-                         id = mhealth$column$TIMESTAMP,
-                         variable.name = "series",
-                         value.name = "value")
-    p <- p + geom_line(data = df,
-                   aes_string(
-                     x = mhealth$column$TIMESTAMP,
-                     y = "value",
-                     color = "series"
-                   ))
-    return(p)
-  }
+.plot.numeric_column <- function(p, df) {
+  df <- reshape2::melt(
+    df,
+    id = mhealth$column$TIMESTAMP,
+    variable.name = "series",
+    value.name = "value"
+  )
+  p <- p + geom_line(data = df,
+                     aes_string(
+                       x = mhealth$column$TIMESTAMP,
+                       y = "value",
+                       color = "series"
+                     ))
+  return(p)
+}
 
-  .plot.categoric_row = function(p, df, range = NULL, jitter = TRUE) {
-    cat_values = unname(unlist(plyr::alply(df[,-c(1,2,3)], 1, function(x){stringr::str_c(x, collapse = ",")}, .dims = FALSE)))
-    categories = unique(cat_values)
-    df$cat_combined = cat_values
+.plot.categoric_row = function(p,
+                               df,
+                               range = NULL,
+                               jitter = TRUE) {
+  cat_values = unname(unlist(plyr::alply(df[, -c(1, 2, 3)], 1, function(x) {
+    stringr::str_c(x, collapse = ",")
+  }, .dims = FALSE)))
+  categories = unique(cat_values)
+  df$cat_combined = cat_values
 
-    if (jitter) {
-      if(is.null(range)){
-        amount = length(categories) / 3
-
-      }else{
-        amount = min(abs(range))
-      }
-      ypos = jitter(rep(0, length(categories)), amount = amount)
+  if (jitter) {
+    if (is.null(range)) {
+      amount = length(categories) / 3
 
     } else{
-      ypos = rep(0, length(categories))
+      amount = min(abs(range))
     }
+    ypos = jitter(rep(0, length(categories)), amount = amount)
 
-    df["ypos"] = sapply(cat_values, function(x) {
-      ypos[x == categories]
-    }, simplify = TRUE)
-
-    p = p + geom_segment(
-      data = df,
-      aes_string(
-        x = mhealth$column$START_TIME,
-        xend = mhealth$column$STOP_TIME,
-        y = "ypos",
-        yend = "ypos",
-        color = "cat_combined"
-      ),
-      alpha = 0.5,
-      size = 1.5
-    )
-    p = p + geom_text(data = df,
-                      aes_string(x = mhealth$column$START_TIME,
-                                 y = "ypos",
-                                 label = "cat_combined"),
-                      size = 2, hjust = 0, vjust = 0)
-    return(p)
+  } else{
+    ypos = rep(0, length(categories))
   }
+
+  df["ypos"] = sapply(cat_values, function(x) {
+    ypos[x == categories]
+  }, simplify = TRUE)
+
+  p = p + geom_segment(
+    data = df,
+    aes_string(
+      x = mhealth$column$START_TIME,
+      xend = mhealth$column$STOP_TIME,
+      y = "ypos",
+      yend = "ypos",
+      color = "cat_combined"
+    ),
+    alpha = 0.5,
+    size = 1.5
+  )
+  p = p + geom_text(
+    data = df,
+    aes_string(
+      x = mhealth$column$START_TIME,
+      y = "ypos",
+      label = "cat_combined"
+    ),
+    size = 2,
+    hjust = 0,
+    vjust = 0
+  )
+  return(p)
+}
