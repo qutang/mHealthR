@@ -24,8 +24,8 @@ mhealth.plot_timeseries <- function(dfs,
   if (length(select_cols) > 1) {
     stopifnot(is.list(select_cols))
   }
-  stopifnot(length(dfs) != length(file_types) &&
-              length(dfs) != length(select_cols))
+  stopifnot(length(dfs) == length(file_types) &&
+              length(dfs) == length(select_cols))
 
   n_total = length(dfs)
 
