@@ -197,7 +197,7 @@ mhealth.plot_instance <- function(df,
       legend.position = "top",
       axis.title.x = element_text(size = 5.5),
       title = element_text(size = 5.5),
-      axis.text.x = element_text(size = 3, angle = 30),
+      axis.text.x = element_text(size = 1.5, angle = 30),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       strip.background = element_blank()
@@ -346,7 +346,7 @@ mhealth.plot_instance <- function(df,
                       vjust = "vjust"
                     ),
                     stat = "identity",
-                    size = 2,
+                    size = 1,
                     hjust = 0.5)
 
   return(p)
