@@ -137,7 +137,7 @@ mhealth.plot_timeseries <- function(dfs,
       }
     }
     if(is.null(nrows)){
-      nrows = min(ceiling(length(p_result)) / ncols, 6)
+      nrows = min(ceiling(length(p_result) / ncols ), 6)
     }else{
       nrows = min(nrows, 6)
     }
@@ -205,7 +205,7 @@ mhealth.plot_instance <- function(df,
     return(p)
   })
   if(is.null(nrows)){
-    nrows = min(ceiling(length(p_list)) / ncols, 6)
+    nrows = min(ceiling(length(p_list) / ncols), 6)
   }else{
     nrows = min(nrows, 6)
   }
