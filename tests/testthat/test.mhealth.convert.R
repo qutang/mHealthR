@@ -137,7 +137,7 @@ test_that("correct cases", {
   )
 
   expect_true({
-    df = mhealth.convert(data.frame(ts = "05/06/2010 12:00:33.212",st = "05/06/2010 12:00:33.212", et = "05/06/2010 12:00:33.212", corr = 1.2, place = "home", stringsAsFactors = FALSE),
+    df = mhealth.convert(data.frame(ts = "05/06/2010 12:00:33.212",st = "05/06/2010 12:00:33.212", et = "05/06/2010 12:00:33.212", corr = 1.2, place = factor("home"), stringsAsFactors = FALSE),
                          required_cols = c(1:5),
                          datetime_format = "%m/%d/%Y %H:%M:%OS",
                          timezone = Sys.timezone(),
@@ -148,7 +148,7 @@ test_that("correct cases", {
   )
 
   expect_true({
-    df = mhealth.convert(data.frame(ts = "05/06/2010 12:00:33.212",st = "05/06/2010 12:00:33.212", et = "05/06/2010 12:00:33.212", corr = 1.2, place = "home", stringsAsFactors = FALSE),
+    df = mhealth.convert(data.frame(ts = "05/06/2010 12:00:33.212",st = "05/06/2010 12:00:33.212", et = "05/06/2010 12:00:33.212", corr = 1.2, place = factor("home"), stringsAsFactors = FALSE),
                          required_cols = c(1,2,3,5,4),
                          datetime_format = "%m/%d/%Y %H:%M:%OS",
                          timezone = Sys.timezone(),

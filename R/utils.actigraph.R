@@ -126,11 +126,11 @@ utils.parseActigraphHeader = function(filename, column_names = TRUE) {
 #' @title create a character vector representing each line of the actigraph csv header
 #' @import stringr
 utils.formatActigraphHeader = function(startTime,
-                                               downloadTime,
-                                               samplingRate,
-                                               sensorId,
-                                               firmVersion,
-                                               softVersion) {
+                                       downloadTime,
+                                       samplingRate,
+                                       sensorId,
+                                       firmVersion,
+                                       softVersion) {
   line = c(
     "------------ Data File Created By ActiGraph GT3X+ ActiLife vSOFT_VERSION Firmware vFIRM_VERSION date format M/d/yyyy at SAMPLING_RATE Hz  Filter Normal -----------"
   )
@@ -138,7 +138,8 @@ utils.formatActigraphHeader = function(startTime,
   line = stringr::str_replace(line, "FIRM_VERSION", firmVersion)
   line = stringr::str_replace(line, "SAMPLING_RATE", samplingRate)
 
-  line = c(line, stringr::str_replace("Serial Number: ID", "ID", sensorId))
+  line = c(line,
+           stringr::str_replace("Serial Number: ID", "ID", sensorId))
   line = c(line,
            stringr::str_replace(
              "Start Time START_TIME",
@@ -152,18 +153,22 @@ utils.formatActigraphHeader = function(startTime,
              format(startTime, "%m/%d/%Y")
            ))
   line = c(line, "Epoch Period (hh:mm:ss) 00:00:00")
-  line = c(line,
-           stringr::str_replace(
-             "Download Time DOWNLOAD_TIME",
-             "DOWNLOAD_TIME",
-             format(downloadTime, "%H:%M:%S")
-           ))
-  line = c(line,
-           stringr::str_replace(
-             "Download Date DOWNLOAD_DATE",
-             "DOWNLOAD_DATE",
-             format(downloadTime, "%m/%d/%Y")
-           ))
+  line = c(
+    line,
+    stringr::str_replace(
+      "Download Time DOWNLOAD_TIME",
+      "DOWNLOAD_TIME",
+      format(downloadTime, "%H:%M:%S")
+    )
+  )
+  line = c(
+    line,
+    stringr::str_replace(
+      "Download Date DOWNLOAD_DATE",
+      "DOWNLOAD_DATE",
+      format(downloadTime, "%m/%d/%Y")
+    )
+  )
   line = c(line, "Current Memory Address: 0")
   line = c(line, "Current Battery Voltage: 4.19     Mode = 12")
   line = c(line,
