@@ -6,7 +6,7 @@
 
 ---
 
-[![Travis-CI Build Status](https://travis-ci.org/qutang/mHealthR.svg?branch=master)](https://travis-ci.org/qutang/mHealthR)
+[![Travis-CI Build Status](https://travis-ci.org/qutang/mHealthR.svg?branch=master)](https://travis-ci.org/qutang/mHealthR) [![codecov](https://codecov.io/github/codecov/example-r/branch/master/graphs/badge.svg)](https://codecov.io/github/codecov/example-r) 
 
 ## Intro
 
