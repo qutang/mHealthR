@@ -18,7 +18,8 @@ Imports:
     ggplot2,
     plyr,
     gridExtra,
-    moments
+    moments,
+    readr
 Suggests:
     testthat,
     knitr,
