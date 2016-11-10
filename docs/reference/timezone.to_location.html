@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>convert utc offset/utc offset in hours/utc offset in seconds to location name — timezone.to_location â€¢ mHealthR</title>
+<title>Convert offset string: &amp;quot;[+/-]HHMM&amp;quot; or offset value in hours: +16, -5.5, to timezone location strings — timezone.to_location â€¢ mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,15 +77,83 @@
       </header>
 
       <div class="page-header">
-  <h1>convert utc offset/utc offset in hours/utc offset in seconds to location name</h1>
+  <h1>Convert offset string: &quot;[+/-]HHMM&quot; or offset value in hours: +16, -5.5, to timezone location strings</h1>
 </div>
 
 <div class="row">
   <div class="col-md-9">
-
+    
+    <p>Matched locations can be filtered by country name, city name or region code</p>
+    
 
     <pre><span class='fu'>timezone.to_location</span>(<span class='no'>input</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-              </div>
+            
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Using offset value</span>
+<span class='fu'>timezone.to_location</span>(+<span class='fl'>8</span>)</div><div class='output co'>#&gt;  [1] &quot;Antarctica/Casey&quot;  &quot;Australia/Perth&quot;   &quot;Asia/Brunei&quot;      
+#&gt;  [4] &quot;Asia/Shanghai&quot;     &quot;Asia/Hong_Kong&quot;    &quot;Asia/Jakarta&quot;     
+#&gt;  [7] &quot;Asia/Pontianak&quot;    &quot;Asia/Makassar&quot;     &quot;Asia/Ulaanbaatar&quot; 
+#&gt; [10] &quot;Asia/Hovd&quot;         &quot;Asia/Choibalsan&quot;   &quot;Asia/Macau&quot;       
+#&gt; [13] &quot;Asia/Kuala_Lumpur&quot; &quot;Asia/Kuching&quot;      &quot;Asia/Manila&quot;      
+#&gt; [16] &quot;Asia/Novosibirsk&quot;  &quot;Asia/Barnaul&quot;      &quot;Asia/Tomsk&quot;       
+#&gt; [19] &quot;Asia/Novokuznetsk&quot; &quot;Asia/Krasnoyarsk&quot;  &quot;Asia/Irkutsk&quot;     
+#&gt; [22] &quot;Asia/Chita&quot;        &quot;Asia/Yakutsk&quot;      &quot;Asia/Khandyga&quot;    
+#&gt; [25] &quot;Asia/Ust-Nera&quot;     &quot;Asia/Singapore&quot;    &quot;Asia/Dili&quot;        
+#&gt; [28] &quot;Asia/Taipei&quot;       &quot;Asia/Ho_Chi_Minh&quot; 
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by region code</span>
+<span class='fu'>timezone.to_location</span>(+<span class='fl'>8</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"HK"</span>)</div><div class='output co'>#&gt; [1] &quot;Asia/Hong_Kong&quot;
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by country name</span>
+<span class='fu'>timezone.to_location</span>(+<span class='fl'>8</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"Vietnam"</span>)</div><div class='output co'>#&gt; [1] &quot;Asia/Ho_Chi_Minh&quot;
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by city name</span>
+<span class='fu'>timezone.to_location</span>(+<span class='fl'>8</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"Shanghai"</span>)</div><div class='output co'>#&gt; [1] &quot;Asia/Shanghai&quot;
+#&gt; </div><div class='input'>
+<span class='co'># Using offset string</span>
+<span class='fu'>timezone.to_location</span>(<span class='st'>"-0500"</span>)</div><div class='output co'>#&gt;  [1] &quot;America/Eirunepe&quot;               &quot;America/Rio_Branco&quot;            
+#&gt;  [3] &quot;America/Nassau&quot;                 &quot;America/Belize&quot;                
+#&gt;  [5] &quot;America/Moncton&quot;                &quot;America/Toronto&quot;               
+#&gt;  [7] &quot;America/Nipigon&quot;                &quot;America/Thunder_Bay&quot;           
+#&gt;  [9] &quot;America/Iqaluit&quot;                &quot;America/Pangnirtung&quot;           
+#&gt; [11] &quot;America/Atikokan&quot;               &quot;America/Winnipeg&quot;              
+#&gt; [13] &quot;America/Rainy_River&quot;            &quot;America/Resolute&quot;              
+#&gt; [15] &quot;America/Rankin_Inlet&quot;           &quot;America/Cambridge_Bay&quot;         
+#&gt; [17] &quot;America/Yellowknife&quot;            &quot;America/Santiago&quot;              
+#&gt; [19] &quot;Pacific/Easter&quot;                 &quot;America/Bogota&quot;                
+#&gt; [21] &quot;America/Costa_Rica&quot;             &quot;America/Havana&quot;                
+#&gt; [23] &quot;America/Santo_Domingo&quot;          &quot;America/Guayaquil&quot;             
+#&gt; [25] &quot;Pacific/Galapagos&quot;              &quot;America/Guatemala&quot;             
+#&gt; [27] &quot;America/Tegucigalpa&quot;            &quot;America/Port-au-Prince&quot;        
+#&gt; [29] &quot;America/Jamaica&quot;                &quot;America/Cayman&quot;                
+#&gt; [31] &quot;America/Mexico_City&quot;            &quot;America/Cancun&quot;                
+#&gt; [33] &quot;America/Merida&quot;                 &quot;America/Monterrey&quot;             
+#&gt; [35] &quot;America/Matamoros&quot;              &quot;America/Chihuahua&quot;             
+#&gt; [37] &quot;America/Ojinaga&quot;                &quot;America/Bahia_Banderas&quot;        
+#&gt; [39] &quot;America/Managua&quot;                &quot;America/Panama&quot;                
+#&gt; [41] &quot;America/Lima&quot;                   &quot;America/El_Salvador&quot;           
+#&gt; [43] &quot;America/Grand_Turk&quot;             &quot;America/New_York&quot;              
+#&gt; [45] &quot;America/Detroit&quot;                &quot;America/Kentucky/Louisville&quot;   
+#&gt; [47] &quot;America/Kentucky/Monticello&quot;    &quot;America/Indiana/Indianapolis&quot;  
+#&gt; [49] &quot;America/Indiana/Vincennes&quot;      &quot;America/Indiana/Winamac&quot;       
+#&gt; [51] &quot;America/Indiana/Marengo&quot;        &quot;America/Indiana/Petersburg&quot;    
+#&gt; [53] &quot;America/Indiana/Vevay&quot;          &quot;America/Chicago&quot;               
+#&gt; [55] &quot;America/Indiana/Tell_City&quot;      &quot;America/Indiana/Knox&quot;          
+#&gt; [57] &quot;America/Menominee&quot;              &quot;America/North_Dakota/Center&quot;   
+#&gt; [59] &quot;America/North_Dakota/New_Salem&quot; &quot;America/North_Dakota/Beulah&quot;   
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by region code</span>
+<span class='fu'>timezone.to_location</span>(<span class='st'>"-0500"</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"US"</span>)</div><div class='output co'>#&gt;  [1] &quot;America/New_York&quot;               &quot;America/Detroit&quot;               
+#&gt;  [3] &quot;America/Kentucky/Louisville&quot;    &quot;America/Kentucky/Monticello&quot;   
+#&gt;  [5] &quot;America/Indiana/Indianapolis&quot;   &quot;America/Indiana/Vincennes&quot;     
+#&gt;  [7] &quot;America/Indiana/Winamac&quot;        &quot;America/Indiana/Marengo&quot;       
+#&gt;  [9] &quot;America/Indiana/Petersburg&quot;     &quot;America/Indiana/Vevay&quot;         
+#&gt; [11] &quot;America/Chicago&quot;                &quot;America/Indiana/Tell_City&quot;     
+#&gt; [13] &quot;America/Indiana/Knox&quot;           &quot;America/Menominee&quot;             
+#&gt; [15] &quot;America/North_Dakota/Center&quot;    &quot;America/North_Dakota/New_Salem&quot;
+#&gt; [17] &quot;America/North_Dakota/Beulah&quot;   
+#&gt; </div></pre>
+  </div>
   <div class="col-md-3">
   </div>
 </div>

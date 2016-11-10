@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>convert utc offset/utc offset in hours/utc offset in seconds to location name — timezone.to_abbr â€¢ mHealthR</title>
+<title>Convert offset string: &amp;quot;[+/-]HHMM&amp;quot; or offset value in hours: +16, -5.5, to timezone abbreviation strings — timezone.to_abbr â€¢ mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,15 +77,39 @@
       </header>
 
       <div class="page-header">
-  <h1>convert utc offset/utc offset in hours/utc offset in seconds to location name</h1>
+  <h1>Convert offset string: &quot;[+/-]HHMM&quot; or offset value in hours: +16, -5.5, to timezone abbreviation strings</h1>
 </div>
 
 <div class="row">
   <div class="col-md-9">
-
+    
+    <p>Matched locations can be filtered by country name, city name or region code</p>
+    
 
     <pre><span class='fu'>timezone.to_abbr</span>(<span class='no'>input</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-              </div>
+            
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Using offset value</span>
+<span class='fu'>timezone.to_abbr</span>(+<span class='fl'>8</span>)</div><div class='output co'>#&gt;  [1] &quot;+08&quot;   &quot;AWST&quot;  &quot;BNT&quot;   &quot;CST&quot;   &quot;HKT&quot;   &quot;WIB&quot;   &quot;WITA&quot;  &quot;ULAT&quot;  &quot;HOVST&quot;
+#&gt; [10] &quot;CHOT&quot;  &quot;MOT&quot;   &quot;MYT&quot;   &quot;BORT&quot;  &quot;PHT&quot;   &quot;SGT&quot;   &quot;TLT&quot;   &quot;JWST&quot;  &quot;IDT&quot;  
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by region code</span>
+<span class='fu'>timezone.to_abbr</span>(+<span class='fl'>8</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"HK"</span>)</div><div class='output co'>#&gt; [1] &quot;HKT&quot;
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by country name</span>
+<span class='fu'>timezone.to_abbr</span>(+<span class='fl'>8</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"Vietnam"</span>)</div><div class='output co'>#&gt; [1] &quot;IDT&quot;
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by city name</span>
+<span class='fu'>timezone.to_abbr</span>(+<span class='fl'>8</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"Shanghai"</span>)</div><div class='output co'>#&gt; [1] &quot;CST&quot;
+#&gt; </div><div class='input'>
+<span class='co'># Using offset string</span>
+<span class='fu'>timezone.to_abbr</span>(<span class='st'>"-0500"</span>)</div><div class='output co'>#&gt;  [1] &quot;ACT&quot;   &quot;EST&quot;   &quot;CDT&quot;   &quot;CWT&quot;   &quot;CPT&quot;   &quot;MDDT&quot;  &quot;CLT&quot;   &quot;EASST&quot; &quot;COT&quot;  
+#&gt; [10] &quot;CST&quot;   &quot;ECT&quot;   &quot;PET&quot;  
+#&gt; </div><div class='input'>
+<span class='co'># If filtered by region code</span>
+<span class='fu'>timezone.to_abbr</span>(<span class='st'>"-0500"</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='st'>"US"</span>)</div><div class='output co'>#&gt; [1] &quot;EST&quot; &quot;CDT&quot; &quot;CWT&quot; &quot;CPT&quot;
+#&gt; </div></pre>
+  </div>
   <div class="col-md-3">
   </div>
 </div>

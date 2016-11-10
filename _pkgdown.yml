@@ -26,7 +26,7 @@ reference:
       - starts_with("mhealth.plot")
 
   - title: "timezone"
-    desc: "Utility to get time zone information"
+    desc: "Utility to get time zone information. The timezone database is extracted from https://timezonedb.com and will be kept updating with every version release."
     contents:
       - starts_with("timezone")
 
