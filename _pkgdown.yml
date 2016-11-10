@@ -1,5 +1,6 @@
 template:
   bootswatch: flatly
+  ganalytics: "UA-38342303-2"
 
 reference:
   - title: "mHealth core"
