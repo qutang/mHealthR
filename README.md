@@ -6,6 +6,8 @@
 
 ---
 
+[![Travis-CI Build Status](https://travis-ci.org/qutang/mHealthR.svg?branch=master)](https://travis-ci.org/qutang/mHealthR)
+
 ## Intro
 
 This package is used to *validate*, *read*, *write*, *plot*, *convert* and *manipulate* annotated mobile health data (such as physical and phisiological sensor data) store in [mhealth specification](https://qutang.github.io/project/mhealth-specification/).
