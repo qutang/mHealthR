@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>convert utc offset/utc offset in hours/utc offset in seconds to location name — timezone.to_abbr â€¢ mHealthR</title>
+<title>extract data characteristics (time or spectrum) from each column of a sensor, feature or annotation data file — mhealth.extract_features â€¢ mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,15 +77,22 @@
       </header>
 
       <div class="page-header">
-  <h1>convert utc offset/utc offset in hours/utc offset in seconds to location name</h1>
+  <h1>extract data characteristics (time or spectrum) from each column of a sensor, feature or annotation data file</h1>
 </div>
 
 <div class="row">
   <div class="col-md-9">
 
 
-    <pre><span class='fu'>timezone.to_abbr</span>(<span class='no'>input</span>, <span class='kw'>country_or_city</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-              </div>
+    <pre><span class='fu'>mhealth.extract_features</span>(<span class='no'>df</span>, <span class='no'>file_type</span>, <span class='no'>select_cols</span>, <span class='no'>group_cols</span>,
+  <span class='kw'>preset</span> <span class='kw'>=</span> <span class='st'>"stat"</span>)</pre>
+    
+    <h2>Arguments</h2>
+    <dl class="dl-horizontal">
+      <dt>preset</dt>
+      <dd>predefined feature sets, see description for detailed definition for each set</dd>
+    </dl>
+          </div>
   <div class="col-md-3">
   </div>
 </div>

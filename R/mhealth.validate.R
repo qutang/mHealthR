@@ -1,5 +1,5 @@
 #' @name mhealth.validate
-#' @title validate filename or dataframe against mhealth specification
+#' @title Validate filename or dataframe against mhealth specification
 #' @param group_cols numeric or character vector specify columns to be validated as group variable. Only feasible for dataframe validation. Default is NULL, meaning there is no group columns in the dataframe.
 #' @import stringr
 #' @export

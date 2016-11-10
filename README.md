@@ -2,7 +2,7 @@
 
 #### Author: [Qu Tang](http://qutang.github.io)
 
-#### Version: 0.5.10
+#### Version: 0.6.0
 
 ---
 
