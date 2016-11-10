@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • mHealthR</title>
+<title>extract data characteristics (time or spectrum) from each column of a sensor, feature or annotation data file � mhealth.extract_characteristics • mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,59 +77,31 @@
       </header>
 
       <div class="page-header">
-  <h1>Function reference <small>version&nbsp;0.6.0</small></h1>
+  <h1>extract data characteristics (time or spectrum) from each column of a sensor, feature or annotation data file</h1>
 </div>
 
 <div class="row">
   <div class="col-md-9">
-    <div class="section ">
-      <h2>mHealth core</h2>
-      <p class="section-desc"><p>Data validation, io and conversion to mhealth specification</p></p>
 
-      <dl class="dl-horizontal">
-        <dt><a href="mhealth.convert.html">mhealth.convert</a></dt>
-        <dd>Convert dataframe to be compatible with mhealth specification</dd>
-        <dt><a href="mhealth.read.html">mhealth.read</a></dt>
-        <dd>Write files in mhealth specification into dataframe</dd>
-        <dt><a href="mhealth.validate.html">mhealth.validate</a></dt>
-        <dd>Validate filename or dataframe against mhealth specification</dd>
-        <dt><a href="mhealth.write.html">mhealth.write</a></dt>
-        <dd>Write dataframe to csv in mhealth specification</dd>
-      </dl>
-    </div>
-    <div class="section ">
-      <h2>mHealth manipulation</h2>
-      <p class="section-desc"><p>Data operations for dataframes in mhealth specification</p></p>
 
-      <dl class="dl-horizontal">
-        <dt><a href="mhealth.clip.html">mhealth.clip</a></dt>
-        <dd>mhealth.clip</dd>
-        <dt><a href="mhealth.segment.html">mhealth.segment</a></dt>
-        <dd>segment dataframe in mhealth specification by time window</dd>
-      </dl>
-    </div>
-    <div class="section ">
-      <h2>mHealth visualization</h2>
-      <p class="section-desc"><p>Data visualization for dataframes in mhealth specification</p></p>
+    <pre><span class='fu'>mhealth.extract_characteristics</span>(<span class='no'>df</span>, <span class='no'>file_type</span>, <span class='no'>select_cols</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(),
+  <span class='kw'>preset</span> <span class='kw'>=</span> <span class='st'>"stat"</span>)</pre>
+    
+    <h2>Arguments</h2>
+    <dl class="dl-horizontal">
+      <dt>group_cols</dt>
+      <dd>default is empty, if so, it will extract on all rows</dd>
+      <dt>preset</dt>
+      <dd>predefined feature sets, see description for detailed definition for each set</dd>
+    </dl>
+    
+    <div class="Note">
+      <h2>Note</h2>
 
-      <dl class="dl-horizontal">
-        <dt><a href="mhealth.plot_instance.html">mhealth.plot_instance</a></dt>
-        <dd>Plot instance (each row in a feature data file) with bar chart, so taht easy to analyze and compare features for different instances.</dd>
-        <dt><a href="mhealth.plot_timeseries.html">mhealth.plot_timeseries</a></dt>
-        <dd>Plot time series with annotations</dd>
-      </dl>
+      <p>Check NULL for returned value.</p>
     </div>
-    <div class="section ">
-      <h2>timezone</h2>
-      <p class="section-desc"><p>Utility to get time zone information</p></p>
-
-      <dl class="dl-horizontal">
-        <dt><a href="timezone.to_abbr.html">timezone.to_abbr</a></dt>
-        <dd>convert utc offset/utc offset in hours/utc offset in seconds to location name</dd>
-        <dt><a href="timezone.to_location.html">timezone.to_location</a></dt>
-        <dd>convert utc offset/utc offset in hours/utc offset in seconds to location name</dd>
-      </dl>
-    </div>
+      </div>
+  <div class="col-md-3">
   </div>
 </div>
 
