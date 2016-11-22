@@ -2,6 +2,7 @@
 
 export(mhealth)
 export(mhealth.clip)
+export(mhealth.combine_annotation)
 export(mhealth.convert)
 export(mhealth.extract_characteristics)
 export(mhealth.plot_instance)

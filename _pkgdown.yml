@@ -20,6 +20,12 @@ reference:
       - mhealth.clip
       - mhealth.extract_characteristics
 
+  - title: "annotation manipulation"
+    desc: >
+      Data operations for annotation data file
+    contents:
+      - mhealth.combine_annotation
+
   - title: "mHealth visualization"
     desc: >
       Data visualization for dataframes in mhealth specification

@@ -47,7 +47,7 @@
   if (class(timestamp) == "numeric" ||
       class(timestamp) == "character" ||
       class(timestamp) == "integer") {
-    # timestamp should be a number and character
+    # timestamp column should be a number and character
     if (is.character(timestamp))
       valid = length(which(names(df) == timestamp)) != 0
     else if (is.numeric(timestamp) ||
@@ -77,11 +77,16 @@
           message("Not a valid date column")
           return(NULL)
         }
-      } else{
+      } else if((is.numeric(df[1, timestamp]) |
+                is.double(df[1, timestamp]) |
+                is.integer(df[1, timestamp])) &
+                is.character(timezone)) {
+        valid = TRUE
+      } else {
         message(
           sprintf(
             "\n
-            You must provide datetime column, datetime format or time zone as character for conversion"
+            You must provide timestamps as character or number, datetime format or time zone as character for conversion"
           )
           )
         return(NULL)
@@ -90,7 +95,12 @@
         # convert to mhealth timestamp column
         if (is.character(df[1, timestamp])) {
           df[timestamp] = as.POSIXct(df[[timestamp]], tz = timezone, format = datetime_format)
-        } else{
+        } else if(is.numeric(df[1, timestamp]) |
+                  is.double(df[1, timestamp]) |
+                  is.integer(df[1, timestamp])){
+          df[timestamp] = as.POSIXct(df[[timestamp]], origin = "1970-01-01", tz = timezone)
+        }
+        else{
           df[timestamp] = df[[timestamp]]
         }
         old_name = timestamp
