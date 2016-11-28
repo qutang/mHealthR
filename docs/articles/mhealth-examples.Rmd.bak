@@ -1,0 +1,97 @@
+---
+title: "mhealth visualization examples"
+output: html_notebook
+---
+
+(See in [R notebook](mhealth-examples.nb.html))
+
+# Basic usage
+
+## Sensor timeseries in a single plot
+
+```{r, echo=FALSE, include=FALSE}
+library(mHealthR)
+sensor = mhealth.read("C:/Users/Qu/Documents/CleanLabDataset/SPADES_15/MasterSynced/2016/01/15/12/ActigraphGT9X-AccelerationCalibrated-NA.TAS1E23150136-ACCELERATIONCALIBRATED.2016-01-15-12-00-00-000-M0500.sensor.csv.gz", filetype = "sensor")
+annotation = mhealth.read("C:/Users/Qu/Documents/CleanLabDataset/SPADES_15/MasterSynced/2016/01/15/12/SPADESInLab.DIEGO-SPADESINLAB.2016-01-15-12-06-44-392-M0500.annotation.csv.gz", filetype = "annotation")
+options(digits.secs=3)
+timezone = lubridate::tz(sensor[1,1])
+sensor$HEADER_TIME_STAMP = format(sensor$HEADER_TIME_STAMP, format = mhealth$format$csv$TIMESTAMP)
+```
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, highlight=TRUE, comment=NA}
+head(sensor)
+```
+
+```{r, echo=FALSE, include=FALSE}
+sensor = mhealth.convert(sensor, file_type = "sensor", required_cols = c(1,2,3,4), datetime_format = mhealth$format$csv$TIMESTAMP, timezone = timezone)
+```
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, highlight=TRUE, fig.align='left', fig.width=8.5, fig.height=3, out.width= "100%", out.height="auto"}
+mhealth.plot_timeseries(dfs = list(sensor[1:10000,]), 
+                        file_types = c("sensor"), 
+                        select_cols = list(c(2,3,4)))
+```
+
+## Sensor timeseries in subplots
+
+```{r, echo=TRUE, message=FALSE, warning=TRUE, highlight=TRUE, fig.align='left', comment = NA, fig.height=1.5, fig.width = 8.5, out.width= "100%", out.height="auto"}
+seg_sensor = mhealth.segment(sensor, "30 sec", file_type = "sensor")
+head(seg_sensor)
+mhealth.plot_timeseries(dfs = list(seg_sensor[1:10000,]), 
+                        file_types = c("sensor"), 
+                        select_cols = list(c(2,3,4)),
+                        group_cols = c("SEGMENT"), 
+                        ncols = 5)
+```
+
+## Sensor timeseries with annotations in subplots
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, highlight=TRUE, comment=NA}
+head(annotation, 10)
+```
+
+Clip both sensor and annotation to the same time range
+```{r, message=FALSE, warning=FALSE, comment=NA, highlight=TRUE, include=TRUE, echo=TRUE, eval=TRUE}
+start_time = as.POSIXct(max(sensor[1,1], annotation[1,2]), origin = "1970-01-01", tz = lubridate::tz(sensor[1,1]))
+# clip at the 10th annotation
+stop_time = as.POSIXct(min(sensor[nrow(sensor),1], annotation[10,3]), origin = "1970-01-01", tz = lubridate::tz(sensor[1,1]))
+
+sensor_clip = mhealth.clip(sensor, start_time, stop_time, "sensor")
+annotation_clip = mhealth.clip(annotation, start_time, stop_time, "annotation")
+```
+
+Segment with the same break time criteria
+
+```{r}
+sensor_clip_seg = mhealth.segment(sensor_clip, breaks = "30 sec", file_type = "sensor")
+annotation_clip_seg = mhealth.segment(annotation_clip, breaks = "30 sec", file_type = "annotation")
+```
+
+Pass list to `mhealth.plot_timeseries`
+
+```{r, echo=TRUE, message=FALSE, warning=TRUE, highlight=TRUE, fig.align='left', comment = NA, fig.height=1.5, fig.width = 8.5, out.width= "100%", out.height="auto"}
+mhealth.plot_timeseries(dfs = list(sensor_clip_seg, annotation_clip_seg), 
+                        file_types = c("sensor", "annotation"), 
+                        select_cols = list(c(2,3,4), c(4)),
+                        group_cols = c("SEGMENT"), 
+                        ncols = 5)
+```
+
+## Annotation timeseries in single plot
+
+```{r, echo=TRUE, message=FALSE, warning=TRUE, highlight=TRUE, fig.align='left', comment = NA, fig.height=3, fig.width = 8.5, out.width= "100%", out.height="auto"}
+mhealth.plot_timeseries(dfs = list(annotation_clip_seg), 
+                        file_types = c("annotation"), 
+                        select_cols = list(c(4)))
+```
+
+## Annotation timeseries in subplots
+
+```{r, echo=TRUE, message=FALSE, warning=TRUE, highlight=TRUE, fig.align='left', comment = NA, fig.height=1.5, fig.width = 8.5, out.width= "100%", out.height="auto"}
+mhealth.plot_timeseries(dfs = list(annotation_clip_seg), 
+                        file_types = c("annotation"), 
+                        select_cols = list(c(4)),
+                        group_cols = c("SEGMENT"), 
+                        ncols = 5)
+```

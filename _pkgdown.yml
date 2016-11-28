@@ -1,24 +1,18 @@
-template:
-  bootswatch: flatly
-  ganalytics: "UA-38342303-2"
-
 reference:
-  - title: "mHealth core"
-    desc: >
-      Data validation, io and conversion to mhealth specification
+  - title: mHealth core
+    desc: Data validation, io and conversion to mhealth specification
     contents:
-      - mhealth.validate
-      - mhealth.read
-      - mhealth.write
-      - mhealth.convert
+    - mhealth.validate
+    - mhealth.read
+    - mhealth.write
+    - mhealth.convert
 
-  - title: "mHealth manipulation"
-    desc: >
-      Data operations for dataframes in mhealth specification
+  - title: mHealth manipulation
+    desc: Data operations for dataframes in mhealth specification
     contents:
-      - mhealth.segment
-      - mhealth.clip
-      - mhealth.extract_characteristics
+    - mhealth.segment
+    - mhealth.clip
+    - mhealth.extract_characteristics
 
   - title: "annotation manipulation"
     desc: >
