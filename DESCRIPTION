@@ -1,8 +1,10 @@
 Package: mHealthR
 Type: Package
 Title: Data Processing Library for data stored in mhealth specification
-Version: 0.8.1
-Author: Qu Tang
+Version: 0.8.2
+Authors@R: c(
+    person("Qu", "Tang", , "tang.q@husky.neu.edu", role = c("aut", "cre"))
+    )
 Maintainer: Qu Tang <tang.q@husky.neu.edu>
 Description: A data processing, visualization and analysis library for mhealth
     data stored in mhealth specification. Please refer to http://qutang.github.io/

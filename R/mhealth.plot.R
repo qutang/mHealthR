@@ -64,6 +64,7 @@ mhealth.plot_timeseries <- function(dfs,
     p <- p + xlab(label = "") + ylab(label = "")
     return(p)
   } else if (is.character(group_cols)) {
+    # subplots
     seg_list = lapply(group_cols, function(col) {
       seg = sapply(dfs, function(df) {
         return(unique(df[[col]]))
@@ -75,6 +76,34 @@ mhealth.plot_timeseries <- function(dfs,
     })
     segs = expand.grid(seg_list, stringsAsFactors = FALSE)
     names(segs) = group_cols
+
+    durations = alply(segs, .margins = 1, function(seg) {
+      x_min = NA
+      x_max = NA
+      for (i in 1:n_total) {
+        g_cols = .convert.column_input(dfs[[i]], group_cols)
+        mask = Reduce(function(x, y) {
+          x & y
+        }, lapply(group_cols, function(col) {
+          dfs[[i]][[col]] == seg[[col]]
+        }))
+        df = dfs[[i]][mask, ]
+      }
+      if (file_types[[i]] == mhealth$filetype$sensor) {
+        x_min = min(x_min, df[[mhealth$column$TIMESTAMP]][1], na.rm = TRUE)
+        x_max = max(x_max, df[[mhealth$column$TIMESTAMP]][nrow(df)], na.rm = TRUE)
+      } else if (file_types[[i]] == mhealth$filetype$annotation) {
+        x_min = min(x_min, df[[mhealth$column$START_TIME]][1], na.rm = TRUE)
+        x_max = max(x_max, df[[mhealth$column$STOP_TIME]][nrow(df)], na.rm = TRUE)
+      }
+      x_min = as.POSIXct(x_min, origin = "1970-01-01", tz = tz)
+      x_max = as.POSIXct(x_max, origin = "1970-01-01", tz = tz)
+      duration = as.numeric(x_max - x_min, units = "secs")
+      return(duration)
+    })
+
+    common_duration = max(unlist(durations))
+
     p_list = alply(segs, .margins = 1, function(seg) {
       p = ggplot()
       x_min = NA
@@ -110,9 +139,10 @@ mhealth.plot_timeseries <- function(dfs,
       xlabel = sprintf("%s - %s",
                        format(x_min, "%H:%M:%OS"),
                        format(x_max, "%H:%M:%OS"))
-
+      breaks = round(common_duration / 20)
       p = p + xlim(x_min, x_max)
       p = p + scale_color_discrete(guide = FALSE)
+      p = p + scale_x_datetime(date_breaks = paste(breaks, "secs"), date_minor_breaks = paste(breaks / 2, "secs"))
       p <- p + theme_bw(base_size = 9)
       p <- p + theme(legend.position = "top")
 
@@ -122,8 +152,8 @@ mhealth.plot_timeseries <- function(dfs,
         axis.title.x = element_text(size = 5.5),
         title = element_text(size = 5.5),
         axis.text.x = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_line(color = "gray", size = 0.08),
+        panel.grid.minor.y = element_line(color = "gray", size = 0.04),
         strip.background = element_blank()
       )
       return(p)
@@ -141,7 +171,6 @@ mhealth.plot_timeseries <- function(dfs,
     }else{
       nrows = min(nrows, 6)
     }
-
     return(gridExtra::marrangeGrob(
       p_result,
       ncol = ncols,
