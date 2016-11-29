@@ -1,7 +1,7 @@
 Package: mHealthR
 Type: Package
 Title: Data Processing Library for data stored in mhealth specification
-Version: 0.8.2
+Version: 0.8.3
 Authors@R: c(
     person("Qu", "Tang", , "tang.q@husky.neu.edu", role = c("aut", "cre"))
     )
@@ -22,7 +22,8 @@ Imports:
     gridExtra,
     moments,
     readr,
-    stats
+    stats,
+    ggrepel
 Suggests:
     testthat,
     knitr,

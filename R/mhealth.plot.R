@@ -6,7 +6,7 @@
 #' @param ncols number of columns in the subplot layout per page. Default is 4 columns.
 #' @param nrows number of rows in the subplot layout per page. Default is NULL, which will be calculated automatically by `ncols`, so that ncols * nrows >= total number of subplots. But it should not exceed 6 per page.
 #' @export
-#' @import ggplot2 reshape2 plyr gridExtra
+#' @import ggplot2 reshape2 plyr gridExtra ggrepel
 
 mhealth.plot_timeseries <- function(dfs,
                                     file_types,

@@ -37,6 +37,7 @@
   return(p)
 }
 
+#' @import ggrepel
 .plot.categoric_row = function(p,
                                df,
                                range = NULL,
@@ -76,12 +77,13 @@
     alpha = 0.5,
     size = 1.5
   )
-  p = p + geom_text(
+  p = p + ggrepel::geom_text_repel(
     data = df,
     aes_string(
       x = mhealth$column$START_TIME,
       y = "ypos",
-      label = "cat_combined"
+      label = "cat_combined",
+      color = "cat_combined"
     ),
     size = 2,
     hjust = 0,
@@ -119,7 +121,7 @@
                       x = "category",
                       y = "standard_value"
                     ), stat = "identity")
-  p = p + geom_text(data = df,
+  p = p + ggrepel::geom_text_repel(data = df,
                     aes_string(
                       x = "category",
                       y = "standard_value",
@@ -129,6 +131,5 @@
                     stat = "identity",
                     size = 1,
                     hjust = 0.5)
-
   return(p)
 }
