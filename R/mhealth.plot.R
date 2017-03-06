@@ -3,6 +3,7 @@
 #' @param file_types list of file_types for each input dataframes
 #' @param group_cols group column names in character vector to divide the plot into subplot. All dataframes should share the same group column names.
 #' @param select_cols list of selected cols for each input data frames to be plotted.
+#' @param title_cols specify columns that will be put in the title of each plot
 #' @param ncols number of columns in the subplot layout per page. Default is 4 columns.
 #' @param nrows number of rows in the subplot layout per page. Default is NULL, which will be calculated automatically by `ncols`, so that ncols * nrows >= total number of subplots. But it should not exceed 6 per page.
 #' @export
@@ -12,6 +13,7 @@ mhealth.plot_timeseries <- function(dfs,
                                     file_types,
                                     select_cols,
                                     group_cols = NULL,
+                                    title_cols = NULL,
                                     ncols = 4,
                                     nrows = NULL) {
   # validate input arguments
@@ -110,6 +112,11 @@ mhealth.plot_timeseries <- function(dfs,
       x_max = NA
       for (i in 1:n_total) {
         g_cols = .convert.column_input(dfs[[i]], group_cols)
+        if(is.null(title_cols)){
+          t_cols = g_cols
+        }else{
+          t_cols = .convert.column_input(dfs[[i]], title_cols)
+        }
         mask = Reduce(function(x, y) {
           x & y
         }, lapply(group_cols, function(col) {
@@ -119,7 +126,7 @@ mhealth.plot_timeseries <- function(dfs,
         if (all(!mask))
           return(NA)
         if (i == 1) {
-          title_label = stringr::str_c(df[1, g_cols], collapse = "-")
+          title_label = stringr::str_c(df[1, t_cols], collapse = "-")
         }
         p = .plot.timeseries(p,
                              df,
@@ -139,10 +146,11 @@ mhealth.plot_timeseries <- function(dfs,
       xlabel = sprintf("%s - %s",
                        format(x_min, "%H:%M:%OS"),
                        format(x_max, "%H:%M:%OS"))
-      breaks = round(common_duration / 20)
+      breaks = ceiling(common_duration / 20)
+      minor_breaks = ceiling(breaks/2)
       p = p + xlim(x_min, x_max)
       p = p + scale_color_discrete(guide = FALSE)
-      p = p + scale_x_datetime(date_breaks = paste(breaks, "secs"), date_minor_breaks = paste(breaks / 2, "secs"))
+      p = p + scale_x_datetime(date_breaks = paste(breaks, "secs"), date_minor_breaks = paste(minor_breaks, "secs"), date_labels = "%H:%M:%S")
       p <- p + theme_bw(base_size = 9)
       p <- p + theme(legend.position = "top")
 
