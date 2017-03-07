@@ -1,13 +1,56 @@
 #' @name mhealth.plot_timeseries
 #' @title Plot time series with annotations
-#' @param file_types list of file_types for each input dataframes
+#' @param file_types vector of file_types for each input dataframes
 #' @param group_cols group column names in character vector to divide the plot into subplot. All dataframes should share the same group column names.
 #' @param select_cols list of selected cols for each input data frames to be plotted.
 #' @param title_cols specify columns that will be put in the title of each plot
 #' @param ncols number of columns in the subplot layout per page. Default is 4 columns.
 #' @param nrows number of rows in the subplot layout per page. Default is NULL, which will be calculated automatically by `ncols`, so that ncols * nrows >= total number of subplots. But it should not exceed 6 per page.
-#' @export
+#' @param as_gg_list if true, return plots as list of ggplot objects; otherwise return gridGrob arranged by ncols and nrows
 #' @import ggplot2 reshape2 plyr gridExtra ggrepel
+#' @export
+#' @examples
+#' # Example 1: single accelerometer time series plot
+#' example1 = accelPA[accelPA$PID == 8 & accelPA$ACTIVITY == "jumping jacks",]
+#' head(example1, 3)
+#' mhealth.plot_timeseries(dfs = list(example1),
+#'                         file_types = c("sensor"),
+#'                         select_cols = list(c(2,3,4)),
+#'                         group_cols = c("PID", "ACTIVITY", "LOCATION"),
+#'                         as_gg_list = TRUE)
+#'
+#' # we may also plot only selected axes
+#' mhealth.plot_timeseries(dfs = list(example1),
+#'                         file_types = c("sensor"),
+#'                         select_cols = list(c(2,3)),
+#'                         group_cols = c("PID", "ACTIVITY", "LOCATION"),
+#'                         as_gg_list = TRUE)
+#'
+#' # Set cols to be used as subtitle
+#' mhealth.plot_timeseries(dfs = list(example1),
+#'                         file_types = c("sensor"),
+#'                         select_cols = list(c(2,3,4)),
+#'                         title_cols = c("ACTIVITY", "LOCATION"),
+#'                         group_cols = c("PID", "ACTIVITY", "LOCATION"),
+#'                         as_gg_list = TRUE)
+#'
+#' # Example 2: multiple accelerometer times series plot
+#' example2 = accelPA[accelPA$ACTIVITY == "sitting" | accelPA$ACTIVITY == "5.5 mph",]
+#' head(example2, 3)
+#' mhealth.plot_timeseries(dfs = list(example2),
+#'                         file_types = c("sensor"),
+#'                         select_cols = list(c(2,3,4)),
+#'                         group_cols = c("PID", "ACTIVITY", "LOCATION"),
+#'                         as_gg_list = TRUE)
+#'
+#' # Example 3: multiple accelerometer examples on the same plot, note that group cols is set to be ONLY PID, because OTHER cols have different values, if we want to put them on the same plot, they should be have the same group values at least
+#' example3a = accelPA[accelPA$ACTIVITY == "jumping jacks",]
+#' example3b = accelPA[accelPA$ACTIVITY == "sitting",]
+#' mhealth.plot_timeseries(dfs = list(example3a, example3b),
+#' file_types = c("sensor", "sensor"),
+#' select_cols = list(c(2,3,4), c(2,3,4)),
+#' group_cols = c("PID"),
+#' as_gg_list = TRUE)
 
 mhealth.plot_timeseries <- function(dfs,
                                     file_types,
@@ -15,7 +58,7 @@ mhealth.plot_timeseries <- function(dfs,
                                     group_cols = NULL,
                                     title_cols = NULL,
                                     ncols = 4,
-                                    nrows = NULL) {
+                                    nrows = NULL, as_gg_list = FALSE) {
   # validate input arguments
   if (length(dfs) > 1) {
     stopifnot(is.list(dfs))
@@ -179,11 +222,15 @@ mhealth.plot_timeseries <- function(dfs,
     }else{
       nrows = min(nrows, 6)
     }
-    return(gridExtra::marrangeGrob(
-      p_result,
-      ncol = ncols,
-      nrow = nrows
-    ))
+    if(as_gg_list){
+      return(p_result)
+    }else{
+      return(gridExtra::marrangeGrob(
+        p_result,
+        ncol = ncols,
+        nrow = nrows
+      ))
+    }
   } else{
     stop("group_cols is illegal input, must be character vector with column names")
   }
@@ -203,7 +250,8 @@ mhealth.plot_instance <- function(df,
                                    select_cols,
                                    group_cols = NULL,
                                    ncols = 4,
-                                   nrows = NULL) {
+                                   nrows = NULL,
+                                   as_gg_list = FALSE) {
   # validate input arguments
 
   s_cols = .convert.column_input(df, select_cols)
@@ -246,10 +294,13 @@ mhealth.plot_instance <- function(df,
   }else{
     nrows = min(nrows, 6)
   }
-
-  return(gridExtra::marrangeGrob(
-    p_list,
-    ncol = ncols,
-    nrow = nrows
-  ))
+  if(as_gg_list){
+    return(p_list)
+  }else{
+    return(gridExtra::marrangeGrob(
+      p_list,
+      ncol = ncols,
+      nrow = nrows
+    ))
+  }
 }
