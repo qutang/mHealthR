@@ -4,7 +4,7 @@
 #' @export
 
 mhealth.clip = function(df, start_time, stop_time, file_type) {
-  tzone = lubridate::tz(df[1,1])
+  tzone = lubridate::tz(df[[mhealth$column$TIMESTAMP]][1])
   if(is.character(start_time)){
     start_time = as.POSIXct(start_time, tz = tzone)
   }
