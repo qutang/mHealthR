@@ -3,6 +3,7 @@
 #' @description Convert dataframe to mhealth specification. The column order of converted dataframe would be required_cols, group_cols. Columns that are not specified in the input arguments will be dropped.
 #' @param file_type mhealth specification file types, see `mhealth$filetype` for all supported types
 #' @param required_cols the required columns of file types that are in order. E.g. for annotation, timestamp, start and end time and annotation name columns are required in the order; for sensor, timestamp and necessary numeric columns are required; for feature, timestamp, start and end time and numeric or categoric features are required; for event, timestamp, start and end time and numeric or categoric info columns are required.
+#' @param rename_cols rename column names in results as provided string vector (except for the first timestamp column)
 #' @param group_cols the columns used for indexing or grouping. Will be converted to numeric or if not, character. Default is null, which means no group columns.
 #' @param datetime_format in string. Used to convert tiemstamp and start and stop time columns to date object
 #' @param timezone in location string. Used to convert timestamp and start and stop time columns to date object
@@ -12,11 +13,11 @@
 mhealth.convert = function(df,
                            file_type,
                            required_cols,
+                           rename_cols = NULL,
                            group_cols = NULL,
                            datetime_format = NULL,
                            timezone = "UTC"
                            ) {
-
   if(missing(file_type) || missing(required_cols)){
     message(sprintf(
       "\n
@@ -173,6 +174,11 @@ mhealth.convert = function(df,
 
   # reorder columns
   df = df[c(required_cols, group_cols)]
+
+  # rename columns
+  col_names = colnames(df)
+  col_names[2:(length(rename_cols)+1)] = rename_cols
+  colnames(df) = col_names
 
   # convert all column headers to uppercase, and exclude illegal characters
   df = .convert.legit_column(df)
