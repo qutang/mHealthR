@@ -98,6 +98,10 @@
         } else if(is.numeric(df[1, timestamp]) |
                   is.double(df[1, timestamp]) |
                   is.integer(df[1, timestamp])){
+          if(nchar(as.character(df[1,timestamp])) >= 13){
+            # is in milliseconds
+            df[timestamp] = df[[timestamp]] / 1000
+          }
           df[timestamp] = as.POSIXct(df[[timestamp]], origin = "1970-01-01", tz = timezone)
         }
         else{
