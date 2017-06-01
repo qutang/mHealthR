@@ -49,15 +49,16 @@ test_that("argument validation", {
 })
 
 test_that("correct cases", {
+
   expect_true(
     {df = mhealth.convert(data.frame(ts = "05/06/2010 12:00:33.212",st = "05/06/2010 12:00:33.212", et = "05/06/2010 12:00:33.212", x = 1.2, y = 1.3, z = 4.5, stringsAsFactors = FALSE),
-                    required_cols = c(1, 2, 3 , 4),
-                    group_cols = c(10),
-                    datetime_format = "%m/%d/%Y %H:%M:%OS",
-                    timezone = Sys.timezone(),
-                    file_type = "annotation")
-      mhealth.validate(df, file_type = "annotation")
-      },
+                     required_cols = c(1, 2, 3 , 4),
+                     group_cols = c(10),
+                     datetime_format = "%m/%d/%Y %H:%M:%OS",
+                     timezone = Sys.timezone(),
+                     file_type = "annotation")
+    mhealth.validate(df, file_type = "annotation")
+    },
     info = "group column not existing"
   )
 
@@ -69,8 +70,8 @@ test_that("correct cases", {
                     timezone = Sys.timezone(),
                     file_type = "annotation")
     mhealth.validate(df, file_type = "annotation")
-    },
-    info = "group column illegal"
+  },
+  info = "group column illegal"
   )
 
   expect_true({

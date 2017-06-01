@@ -47,6 +47,21 @@ mhealth.convert = function(df,
     return(NULL)
   }
 
+
+  # convert group columns
+  group_cols = setdiff(group_cols, required_cols)
+  group_cols = .convert.column_input(df, group_cols)
+
+  # reorder columns
+  if(!is.null(group_cols)){
+    df = df[c(required_cols, group_cols)]
+    required_cols = 1:length(required_cols)
+    group_cols = (length(required_cols) + 1):(length(required_cols) + length(group_cols))
+  }else{
+    df = df[c(required_cols)]
+    required_cols = 1:length(required_cols)
+  }
+
   # timestamp column
   df = .convert.datecolumn(
     df,
@@ -133,10 +148,6 @@ mhealth.convert = function(df,
     }
   }
 
-  # convert group columns
-  # ignore those in required cols
-  group_cols = setdiff(group_cols, required_cols)
-  group_cols = .convert.column_input(df, group_cols)
   if(!is.null(group_cols)){
     for(n in group_cols){
       if(!is.factor(df[1, n])){
@@ -172,13 +183,14 @@ mhealth.convert = function(df,
     }
   }
 
-  # reorder columns
-  df = df[c(required_cols, group_cols)]
-
   # rename columns
-  col_names = colnames(df)
-  col_names[2:(length(rename_cols)+1)] = rename_cols
-  colnames(df) = col_names
+  if(!is.null(rename_cols)){
+    col_names = colnames(df)
+    col_names[2:(length(rename_cols)+1)] = rename_cols
+    colnames(df) = col_names
+  }else{
+    message("rename cols are not valid, ignore it")
+  }
 
   # convert all column headers to uppercase, and exclude illegal characters
   df = .convert.legit_column(df)
