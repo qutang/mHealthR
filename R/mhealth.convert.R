@@ -18,6 +18,7 @@ mhealth.convert = function(df,
                            datetime_format = NULL,
                            timezone = "UTC"
                            ) {
+  options(digits.secs=3)
   if(missing(file_type) || missing(required_cols)){
     message(sprintf(
       "\n
