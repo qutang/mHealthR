@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,87 +80,134 @@
       <div class="row">
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Function reference</h1>
-      <h4>version&nbsp;0.8.7</h4>
+      <h1>
+        Reference
+        <small>version&nbsp;0.8.11</small>
+      </h1>
     </div>
 
     <div class="contents">
-      <h2 id="section-mhealth-core" class="hasAnchor"><a href="#section-mhealth-core" class="anchor"></a>mHealth core</h2>
-      <p class="section-desc"><p>Data validation, io and conversion to mhealth specification</p></p>
+      <table class="ref-index">
 
-      
-      <p><a href="mhealth.convert.html">Convert dataframe to be compatible with mhealth specification</a></p>
-      <ul>
-        <li><code><a href="mhealth.convert.html">mhealth.convert</a></code></li>
-      </ul>
-      
-      <p><a href="mhealth.read.html">Write files in mhealth specification into dataframe</a></p>
-      <ul>
-        <li><code><a href="mhealth.read.html">mhealth.read</a></code></li>
-      </ul>
-      
-      <p><a href="mhealth.validate.html">Validate filename or dataframe against mhealth specification</a></p>
-      <ul>
-        <li><code><a href="mhealth.validate.html">mhealth.validate</a></code></li>
-      </ul>
-      
-      <p><a href="mhealth.write.html">Write dataframe to csv in mhealth specification</a></p>
-      <ul>
-        <li><code><a href="mhealth.write.html">mhealth.write</a></code></li>
-      </ul>
-          <h2 id="section-mhealth-manipulation" class="hasAnchor"><a href="#section-mhealth-manipulation" class="anchor"></a>mHealth manipulation</h2>
-      <p class="section-desc"><p>Data operations for dataframes in mhealth specification</p></p>
+      <colgroup>
+        <col class="alias" />
+        <col class="title" />
+      </colgroup>
 
-      
-      <p><a href="mhealth.clip.html">Clip mhealth dataframe to the given start and stop time</a></p>
-      <ul>
-        <li><code><a href="mhealth.clip.html">mhealth.clip</a></code></li>
-      </ul>
-      
-      <p><a href="mhealth.extract_characteristics.html">extract data characteristics (time or spectrum) from each column of a sensor, feature or annotation data file</a></p>
-      <ul>
-        <li><code><a href="mhealth.extract_characteristics.html">mhealth.extract_characteristics</a></code></li>
-      </ul>
-      
-      <p><a href="mhealth.segment.html">segment dataframe in mhealth specification by time window</a></p>
-      <ul>
-        <li><code><a href="mhealth.segment.html">mhealth.segment</a></code></li>
-      </ul>
-          <h2 id="section-annotation-manipulation" class="hasAnchor"><a href="#section-annotation-manipulation" class="anchor"></a>annotation manipulation</h2>
-      <p class="section-desc"><p>Data operations for annotation data file</p></p>
-
-      
-      <p><a href="mhealth.combine_annotation.html">Combine annotation rows into mutually exclusive format</a></p>
-      <ul>
-        <li><code><a href="mhealth.combine_annotation.html">mhealth.combine_annotation</a></code></li>
-      </ul>
-          <h2 id="section-mhealth-visualization" class="hasAnchor"><a href="#section-mhealth-visualization" class="anchor"></a>mHealth visualization</h2>
-      <p class="section-desc"><p>Data visualization for dataframes in mhealth specification</p></p>
-
-      
-      <p><a href="mhealth.plot_instance.html">Plot instance (each row in a feature data file) with bar chart, so taht easy to analyze and compare features for different instances.</a></p>
-      <ul>
-        <li><code><a href="mhealth.plot_instance.html">mhealth.plot_instance</a></code></li>
-      </ul>
-      
-      <p><a href="mhealth.plot_timeseries.html">Plot time series with annotations</a></p>
-      <ul>
-        <li><code><a href="mhealth.plot_timeseries.html">mhealth.plot_timeseries</a></code></li>
-      </ul>
-          <h2 id="section-timezone" class="hasAnchor"><a href="#section-timezone" class="anchor"></a>timezone</h2>
-      <p class="section-desc"><p>Utility to get time zone information. The timezone database is extracted from <a href="https://timezonedb.com" class="uri">https://timezonedb.com</a> and will be kept updating with every version release.</p></p>
-
-      
-      <p><a href="timezone.to_abbr.html">Convert offset string: &quot;[+/-]HHMM&quot; or offset value in hours: +16, -5.5, to timezone abbreviation strings</a></p>
-      <ul>
-        <li><code><a href="timezone.to_abbr.html">timezone.to_abbr</a></code></li>
-      </ul>
-      
-      <p><a href="timezone.to_location.html">Convert offset string: &quot;[+/-]HHMM&quot; or offset value in hours: +16, -5.5, to timezone location strings</a></p>
-      <ul>
-        <li><code><a href="timezone.to_location.html">timezone.to_location</a></code></li>
-      </ul>
-    
+      <tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-mhealth-core" class="hasAnchor"><a href="#section-mhealth-core" class="anchor"></a>mHealth core</h2>
+            <p class="section-desc"><p>Data validation, io and conversion to mhealth specification</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.validate.html">mhealth.validate</a></code> </p>
+          </td>
+          <td><p>Validate filename or dataframe against mhealth specification</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.read.html">mhealth.read</a></code> </p>
+          </td>
+          <td><p>Write files in mhealth specification into dataframe</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.write.html">mhealth.write</a></code> </p>
+          </td>
+          <td><p>Write dataframe to csv in mhealth specification</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.convert.html">mhealth.convert</a></code> </p>
+          </td>
+          <td><p>Convert dataframe to be compatible with mhealth specification</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-mhealth-manipulation" class="hasAnchor"><a href="#section-mhealth-manipulation" class="anchor"></a>mHealth manipulation</h2>
+            <p class="section-desc"><p>Data operations for dataframes in mhealth specification</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.segment.html">mhealth.segment</a></code> </p>
+          </td>
+          <td><p>segment dataframe in mhealth specification by time window</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.clip.html">mhealth.clip</a></code> </p>
+          </td>
+          <td><p>Clip mhealth dataframe to the given start and stop time</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.extract_characteristics.html">mhealth.extract_characteristics</a></code> </p>
+          </td>
+          <td><p>extract data characteristics (time or spectrum) from each column of a sensor, feature or annotation data file</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-annotation-manipulation" class="hasAnchor"><a href="#section-annotation-manipulation" class="anchor"></a>annotation manipulation</h2>
+            <p class="section-desc"><p>Data operations for annotation data file</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.combine_annotation.html">mhealth.combine_annotation</a></code> </p>
+          </td>
+          <td><p>Combine annotation rows into mutually exclusive format</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-mhealth-visualization" class="hasAnchor"><a href="#section-mhealth-visualization" class="anchor"></a>mHealth visualization</h2>
+            <p class="section-desc"><p>Data visualization for dataframes in mhealth specification</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.plot_instance.html">mhealth.plot_instance</a></code> </p>
+          </td>
+          <td><p>Plot instance (each row in a feature data file) with bar chart, so taht easy to analyze and compare features for different instances.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mhealth.plot_timeseries.html">mhealth.plot_timeseries</a></code> </p>
+          </td>
+          <td><p>Plot time series with annotations</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-timezone" class="hasAnchor"><a href="#section-timezone" class="anchor"></a>timezone</h2>
+            <p class="section-desc"><p>Utility to get time zone information. The timezone database is extracted from <a href="https://timezonedb.com" class="uri">https://timezonedb.com</a> and will be kept updating with every version release.</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="timezone.to_abbr.html">timezone.to_abbr</a></code> </p>
+          </td>
+          <td><p>Convert offset string: "[+/-]HHMM" or offset value in hours: +16, -5.5, to timezone abbreviation strings</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="timezone.to_location.html">timezone.to_location</a></code> </p>
+          </td>
+          <td><p>Convert offset string: "[+/-]HHMM" or offset value in hours: +16, -5.5, to timezone location strings</p></td>
+        </tr>
+      </tbody>
+      </table>
     </div>
   </div>
 

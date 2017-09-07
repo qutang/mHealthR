@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert dataframe to be compatible with mhealth specification — mhealth.convert • mHealthR</title>
+<title>Convert dataframe to be compatible with mhealth specification � mhealth.convert • mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -84,22 +87,37 @@
     <p>Convert dataframe to mhealth specification. The column order of converted dataframe would be required_cols, group_cols. Columns that are not specified in the input arguments will be dropped.</p>
     
 
-    <pre><span class='fu'>mhealth.convert</span>(<span class='no'>df</span>, <span class='no'>file_type</span>, <span class='no'>required_cols</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>datetime_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
+    <pre class="usage"><span class='fu'>mhealth.convert</span>(<span class='no'>df</span>, <span class='no'>file_type</span>, <span class='no'>required_cols</span>, <span class='kw'>rename_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>datetime_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>file_type</dt>
-      <dd>mhealth specification file types, see `mhealth$filetype` for all supported types</dd>
-      <dt>required_cols</dt>
-      <dd>the required columns of file types that are in order. E.g. for annotation, timestamp, start and end time and annotation name columns are required in the order; for sensor, timestamp and necessary numeric columns are required; for feature, timestamp, start and end time and numeric or categoric features are required; for event, timestamp, start and end time and numeric or categoric info columns are required.</dd>
-      <dt>group_cols</dt>
-      <dd>the columns used for indexing or grouping. Will be converted to numeric or if not, character. Default is null, which means no group columns.</dd>
-      <dt>datetime_format</dt>
-      <dd>in string. Used to convert tiemstamp and start and stop time columns to date object</dd>
-      <dt>timezone</dt>
-      <dd>in location string. Used to convert timestamp and start and stop time columns to date object</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file_type</th>
+      <td><p>mhealth specification file types, see `mhealth$filetype` for all supported types</p></td>
+    </tr>
+    <tr>
+      <th>required_cols</th>
+      <td><p>the required columns of file types that are in order. E.g. for annotation, timestamp, start and end time and annotation name columns are required in the order; for sensor, timestamp and necessary numeric columns are required; for feature, timestamp, start and end time and numeric or categoric features are required; for event, timestamp, start and end time and numeric or categoric info columns are required.</p></td>
+    </tr>
+    <tr>
+      <th>rename_cols</th>
+      <td><p>rename column names in results as provided string vector (except for the first timestamp column)</p></td>
+    </tr>
+    <tr>
+      <th>group_cols</th>
+      <td><p>the columns used for indexing or grouping. Will be converted to numeric or if not, character. Default is null, which means no group columns.</p></td>
+    </tr>
+    <tr>
+      <th>datetime_format</th>
+      <td><p>in string. Used to convert tiemstamp and start and stop time columns to date object</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>in location string. Used to convert timestamp and start and stop time columns to date object</p></td>
+    </tr>
+    </table>
     
 
   </div>

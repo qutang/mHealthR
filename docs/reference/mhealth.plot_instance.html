@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot instance (each row in a feature data file) with bar chart, so taht easy to analyze and compare features for different instances. — mhealth.plot_instance • mHealthR</title>
+<title>Plot instance (each row in a feature data file) with bar chart, so taht easy to analyze and compare features for different instances. � mhealth.plot_instance • mHealthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -82,22 +85,33 @@
 
 
 
-    <pre><span class='fu'>mhealth.plot_instance</span>(<span class='no'>df</span>, <span class='no'>select_cols</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+    <pre class="usage"><span class='fu'>mhealth.plot_instance</span>(<span class='no'>df</span>, <span class='no'>select_cols</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>nrows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>df</dt>
-      <dd>feature set file</dd>
-      <dt>select_cols</dt>
-      <dd>selected cols for input data frame to be plotted.</dd>
-      <dt>group_cols</dt>
-      <dd>group cols that contains extra information about the row to be displayed</dd>
-      <dt>ncols</dt>
-      <dd>number of columns in the subplot layout per page. Default is 4 columns.</dd>
-      <dt>nrows</dt>
-      <dd>number of rows in the subplot layout per page. Default is NULL, which will be calculated automatically by `ncols`, so that ncols * nrows &gt;= total number of subplots. But it should not exceed 6 per page.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>df</th>
+      <td><p>feature set file</p></td>
+    </tr>
+    <tr>
+      <th>select_cols</th>
+      <td><p>selected cols for input data frame to be plotted.</p></td>
+    </tr>
+    <tr>
+      <th>group_cols</th>
+      <td><p>group cols that contains extra information about the row to be displayed</p></td>
+    </tr>
+    <tr>
+      <th>ncols</th>
+      <td><p>number of columns in the subplot layout per page. Default is 4 columns.</p></td>
+    </tr>
+    <tr>
+      <th>nrows</th>
+      <td><p>number of rows in the subplot layout per page. Default is NULL, which will be calculated automatically by `ncols`, so that ncols * nrows &gt;= total number of subplots. But it should not exceed 6 per page.</p></td>
+    </tr>
+    </table>
     
 
   </div>
