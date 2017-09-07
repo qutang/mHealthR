@@ -8,9 +8,11 @@ mhealth.clip = function(df, start_time, stop_time, file_type) {
   if(is.character(start_time)){
     start_time = as.POSIXct(start_time, tz = tzone)
   }
+  start_time = lubridate::force_tz(start_time, tz=tzone)
   if(is.character(stop_time)){
     stop_time = as.POSIXct(stop_time, tz = tzone)
   }
+  stop_time = lubridate::force_tz(stop_time, tz=tzone)
 
   if (file_type == mhealth$filetype$annotation) {
     mask = df[[mhealth$column$STOP_TIME]] >= start_time &

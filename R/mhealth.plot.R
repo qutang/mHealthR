@@ -58,7 +58,7 @@ mhealth.plot_timeseries <- function(dfs,
                                     group_cols = NULL,
                                     title_cols = NULL,
                                     ncols = 4,
-                                    nrows = NULL, as_gg_list = FALSE) {
+                                    nrows = NULL, as_gg_list = FALSE, text_annotation=FALSE) {
   # validate input arguments
   if (length(dfs) > 1) {
     stopifnot(is.list(dfs))
@@ -175,7 +175,7 @@ mhealth.plot_timeseries <- function(dfs,
                              df,
                              select_cols[[i]],
                              file_type = file_types[[i]],
-                             range = range)
+                             range = range, text_annotation=text_annotation)
         if (file_types[[i]] == mhealth$filetype$sensor) {
           x_min = min(x_min, df[[mhealth$column$TIMESTAMP]][1], na.rm = TRUE)
           x_max = max(x_max, df[[mhealth$column$TIMESTAMP]][nrow(df)], na.rm = TRUE)

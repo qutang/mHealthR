@@ -1,4 +1,7 @@
+#' @name compute_dominant_freq
+#' @title Compute dominant frequencies
 #' @import stats
+#' @export
 .compute_dominant_freq = function(input, Fs, nth = 1){
 
   # bandpass filter
@@ -28,7 +31,10 @@
   return(dominant_freqs)
 }
 
+#' @name compute_fft
+#' @title Compute FFT
 #' @import stats
+#' @export
 .compute_fft = function(input, Fs){
   N = nextn(length(input), factors = c(2))
   padded = c(input, rep(0, N - length(input)))

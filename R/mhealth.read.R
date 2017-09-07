@@ -79,12 +79,12 @@ mhealth.read = function(file, filetype) {
   df = data.frame(df, stringsAsFactors = FALSE)
 
   # set correct time zone
-  df[[mhealth$column$TIMESTAMP]] = lubridate::force_tz(df[[mhealth$column$TIMESTAMP]], tzone = timezone.to_location(tz_str)[1])
-  if (filetype == mhealth$filetype$annotation ||
-      filetype == mhealth$filetype$feature) {
-    df[[mhealth$column$START_TIME]] = lubridate::force_tz(df[[mhealth$column$START_TIME]], tzone = timezone.to_location(tz_str)[1])
-    df[[mhealth$column$STOP_TIME]] = lubridate::force_tz(df[[mhealth$column$STOP_TIME]], tzone = timezone.to_location(tz_str)[1])
-  }
+  # df[[mhealth$column$TIMESTAMP]] = lubridate::force_tz(df[[mhealth$column$TIMESTAMP]], tzone = timezone.to_location(tz_str)[1])
+  # if (filetype == mhealth$filetype$annotation ||
+  #     filetype == mhealth$filetype$feature) {
+  #   df[[mhealth$column$START_TIME]] = lubridate::force_tz(df[[mhealth$column$START_TIME]], tzone = timezone.to_location(tz_str)[1])
+  #   df[[mhealth$column$STOP_TIME]] = lubridate::force_tz(df[[mhealth$column$STOP_TIME]], tzone = timezone.to_location(tz_str)[1])
+  # }
 
   # validate dataframe
   if(!mhealth.validate(df, file_type = filetype)){

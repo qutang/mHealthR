@@ -1,4 +1,4 @@
-.plot.timeseries = function(p, df, select_cols, file_type, range = NULL) {
+.plot.timeseries = function(p, df, select_cols, file_type, range = NULL, text_annotation=FALSE) {
   s_cols = .convert.column_input(df, select_cols)
 
   if (file_type == mhealth$filetype$sensor) {
@@ -9,7 +9,7 @@
   } else if (file_type == mhealth$filetype$annotation) {
     cols = c(1, 2, 3, s_cols)
     df = df[cols]
-    p = .plot.categoric_row(p, df, range, jitter = TRUE)
+    p = .plot.categoric_row(p, df, range, jitter = TRUE, text_annotation=text_annotation)
   } else {
     warning(
       sprintf(
@@ -41,7 +41,8 @@
 .plot.categoric_row = function(p,
                                df,
                                range = NULL,
-                               jitter = TRUE) {
+                               jitter = TRUE,
+                               text_annotation = FALSE) {
   cat_values = unname(unlist(plyr::alply(df[, -c(1, 2, 3)], 1, function(x) {
     stringr::str_c(x, collapse = ",")
   }, .dims = FALSE)))
@@ -51,7 +52,6 @@
   if (jitter) {
     if (is.null(range)) {
       amount = length(categories) / 3
-
     } else{
       amount = min(abs(range))
     }
@@ -77,18 +77,20 @@
     alpha = 0.5,
     size = 1.5
   )
-  p = p + ggrepel::geom_text_repel(
-    data = df,
-    aes_string(
-      x = mhealth$column$START_TIME,
-      y = "ypos",
-      label = "cat_combined",
-      color = "cat_combined"
-    ),
-    size = 2,
-    hjust = 0,
-    vjust = 0
-  )
+  if(text_annotation){
+    p = p + ggrepel::geom_text_repel(
+      data = df,
+      aes_string(
+        x = mhealth$column$START_TIME,
+        y = "ypos",
+        label = "cat_combined",
+        color = "cat_combined"
+      ),
+      size = 2,
+      hjust = 0,
+      vjust = 0
+    )
+  }
   return(p)
 }
 
