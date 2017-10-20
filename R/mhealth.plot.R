@@ -58,6 +58,7 @@ mhealth.plot_timeseries <- function(dfs,
                                     group_cols = NULL,
                                     title_cols = NULL,
                                     ncols = 4,
+                                    xlabel_timeformat = "%H:%M:%OS",
                                     nrows = NULL, as_gg_list = FALSE, text_annotation=FALSE) {
   # validate input arguments
   if (length(dfs) > 1) {
@@ -187,8 +188,8 @@ mhealth.plot_timeseries <- function(dfs,
       x_min = as.POSIXct(x_min, origin = "1970-01-01", tz = tz)
       x_max = as.POSIXct(x_max, origin = "1970-01-01", tz = tz)
       xlabel = sprintf("%s - %s",
-                       format(x_min, "%H:%M:%OS"),
-                       format(x_max, "%H:%M:%OS"))
+                       format(x_min, xlabel_timeformat),
+                       format(x_max, xlabel_timeformat))
       breaks = ceiling(common_duration / 20)
       minor_breaks = ceiling(breaks/2)
       p = p + xlim(x_min, x_max)

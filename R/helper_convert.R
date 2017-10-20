@@ -155,6 +155,7 @@
   }
 }
 
+#' @importFrom stringr str_extract_all str_c
 .convert.legit_column = function(df) {
   names(df) = toupper(names(df))
   new_names = sapply(stringr::str_extract_all(names(df), "[A-Z0-9_]+", simplify = FALSE), function(x) {

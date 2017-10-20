@@ -1,8 +1,8 @@
 #' @name mhealth.clip
 #' @title Clip mhealth dataframe to the given start and stop time
-#' @import plyr
+#' @import plyr adply
+#' @importFrom lubridate tz force_tz
 #' @export
-
 mhealth.clip = function(df, start_time, stop_time, file_type) {
   tzone = lubridate::tz(df[[mhealth$column$TIMESTAMP]][1])
   if(is.character(start_time)){

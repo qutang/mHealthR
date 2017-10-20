@@ -1,3 +1,4 @@
+#' @importFrom ggplot2 ylim
 .plot.timeseries = function(p, df, select_cols, file_type, range = NULL, text_annotation=FALSE) {
   s_cols = .convert.column_input(df, select_cols)
 
@@ -5,7 +6,7 @@
     cols = c(1, s_cols)
     df = df[cols]
     p = .plot.numeric_column(p, df)
-    p = p + ylim(range)
+    p = p + ggplot2::ylim(range)
   } else if (file_type == mhealth$filetype$annotation) {
     cols = c(1, 2, 3, s_cols)
     df = df[cols]
@@ -21,6 +22,8 @@
   return(p)
 }
 
+#' @importFrom reshape2 melt
+#' @importFrom ggplot2 geom_line aes_string
 .plot.numeric_column <- function(p, df) {
   df <- reshape2::melt(
     df,
@@ -28,8 +31,8 @@
     variable.name = "series",
     value.name = "value"
   )
-  p <- p + geom_line(data = df,
-                     aes_string(
+  p <- p + ggplot2::geom_line(data = df,
+                     ggplot2::aes_string(
                        x = mhealth$column$TIMESTAMP,
                        y = "value",
                        color = "series"
@@ -37,7 +40,10 @@
   return(p)
 }
 
-#' @import ggrepel
+#' @importFrom ggrepel geom_text_repel
+#' @importFrom plyr alply
+#' @importFrom stringr str_c
+#' @importFrom ggplot2 geom_segment aes_string
 .plot.categoric_row = function(p,
                                df,
                                range = NULL,
@@ -65,9 +71,9 @@
     ypos[x == categories]
   }, simplify = TRUE)
 
-  p = p + geom_segment(
+  p = p + ggplot2::geom_segment(
     data = df,
-    aes_string(
+    ggplot2::aes_string(
       x = mhealth$column$START_TIME,
       xend = mhealth$column$STOP_TIME,
       y = "ypos",
@@ -80,7 +86,7 @@
   if(text_annotation){
     p = p + ggrepel::geom_text_repel(
       data = df,
-      aes_string(
+      ggplot2::aes_string(
         x = mhealth$column$START_TIME,
         y = "ypos",
         label = "cat_combined",
@@ -94,6 +100,8 @@
   return(p)
 }
 
+#' @importFrom reshape2 melt
+#' @importFrom ggplot2 geom_bar aes_string
 .plot.numeric_row = function(p, df, df_standard) {
   df <- reshape2::melt(
     df,
@@ -118,13 +126,13 @@
 
   df$vjust = df$standard_value < 0
 
-  p <- p + geom_bar(data = df,
-                    aes_string(
+  p <- p + ggplot2::geom_bar(data = df,
+                    ggplot2::aes_string(
                       x = "category",
                       y = "standard_value"
                     ), stat = "identity")
   p = p + ggrepel::geom_text_repel(data = df,
-                    aes_string(
+                    ggplot2::aes_string(
                       x = "category",
                       y = "standard_value",
                       label = "value",

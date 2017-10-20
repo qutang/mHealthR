@@ -1,6 +1,6 @@
 #' @name compute_dominant_freq
 #' @title Compute dominant frequencies
-#' @import stats
+#' @importFrom signal butter filter
 #' @export
 .compute_dominant_freq = function(input, Fs, nth = 1){
 
@@ -33,12 +33,12 @@
 
 #' @name compute_fft
 #' @title Compute FFT
-#' @import stats
+#' @importFrom stats nextn fft
 #' @export
 .compute_fft = function(input, Fs){
-  N = nextn(length(input), factors = c(2))
+  N = stats::nextn(length(input), factors = c(2))
   padded = c(input, rep(0, N - length(input)))
-  spectrum = fft(padded)
+  spectrum = stats::fft(padded)
   f = Fs/2*seq(0,1,length.out = N/2);
   spectrum = data.frame(FREQ = f, VALUE = abs(spectrum[1:(N/2)])/N)
   return(spectrum)

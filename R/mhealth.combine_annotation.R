@@ -1,8 +1,7 @@
 #' @name mhealth.combine_annotation
 #' @title Combine annotation rows into mutually exclusive format
 #' @export
-#' @import stringr plyr lubridate
-
+#' @importFrom plyr ddply
 mhealth.combine_annotation = function(df, group_cols = NULL){
   # verify annotation file
   valid = mhealth.validate(df, file_type = mhealth$filetype$annotation)
@@ -10,7 +9,7 @@ mhealth.combine_annotation = function(df, group_cols = NULL){
     if(is.null(group_cols)){
       result = .combine_annotation.no_group(df, group_cols)
     }else{
-      result = ddply(df, group_cols, function(seg){
+      result = plyr::ddply(df, group_cols, function(seg){
         result = .combine_annotation.no_group(seg, group_cols)
         return(result)
       })
@@ -23,11 +22,12 @@ mhealth.combine_annotation = function(df, group_cols = NULL){
   }
 }
 
+#' @importFrom plyr ldply
 .combine_annotation.no_group = function(df, group_cols = NULL){
   sts = df[, mhealth$column$START_TIME]
   ets = df[, mhealth$column$STOP_TIME]
   ts = sort(unique(floor(as.numeric(c(sts, ets)))), decreasing = FALSE)
-  result = ldply(1:(length(ts)-1), function(i){
+  result = plyr::ldply(1:(length(ts)-1), function(i){
     middleTime = mean(c(ts[i], ts[i + 1]))
     criteria = floor(as.numeric(sts)) < as.numeric(middleTime) &
       floor(as.numeric(ets)) >= as.numeric(middleTime)

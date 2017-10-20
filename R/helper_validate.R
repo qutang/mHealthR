@@ -72,6 +72,7 @@
   return(v_col)
 }
 
+#' @importFrom stringr str_detect
 .validate.columnstyle = function(col_names, i) {
   valid = stringr::str_detect(col_names[i], pattern = mhealth$pattern$csv$COLUMN_STYLE)
   if (!valid) {
