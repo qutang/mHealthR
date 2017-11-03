@@ -1,6 +1,6 @@
 #' @name mhealth.clip
 #' @title Clip mhealth dataframe to the given start and stop time
-#' @import plyr adply
+#' @importFrom plyr adply
 #' @importFrom lubridate tz force_tz
 #' @export
 mhealth.clip = function(df, start_time, stop_time, file_type) {

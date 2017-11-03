@@ -1,6 +1,6 @@
 #' @name mhealth.segment
 #' @title segment dataframe in mhealth specification by time window
-#' @import plyr
+#' @importFrom plyr adply
 #' @export
 
 mhealth.segment = function(df, breaks, file_type){
@@ -33,7 +33,7 @@ mhealth.segment = function(df, breaks, file_type){
     br = ts[1]
     return(br)
   }else{
-    ts[1] = .segment.floor_date(ts[1], breaks)
+    ts[1] = .segment.ceil_date(ts[1], breaks)
   }
   segments = cut(ts, breaks= breaks)
   return(segments)
