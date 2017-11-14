@@ -59,7 +59,7 @@ mhealth.plot_timeseries <- function(dfs,
                                     title_cols = NULL,
                                     ncols = 4,
                                     xlabel_timeformat = "%H:%M:%OS",
-                                    nrows = NULL, as_gg_list = FALSE, text_annotation=FALSE) {
+                                    nrows = NULL, as_gg_list = FALSE, text_annotation=FALSE, share_y = TRUE) {
   # validate input arguments
   if (length(dfs) > 1) {
     stopifnot(is.list(dfs))
@@ -76,21 +76,24 @@ mhealth.plot_timeseries <- function(dfs,
   n_total = length(dfs)
 
   # Find out the common Y scale
-  v_max = c()
-  v_min = c()
-  for (i in 1:n_total) {
-    temp_df = dfs[[i]][.convert.column_input(dfs[[i]], select_cols[[i]])]
-    if (file_types[i] == mhealth$filetype$sensor) {
-      v_max = max(v_max, max(temp_df))
-      v_min = min(v_min, min(temp_df))
+  if(share_y){
+    v_max = c()
+    v_min = c()
+    for (i in 1:n_total) {
+      temp_df = dfs[[i]][.convert.column_input(dfs[[i]], select_cols[[i]])]
+      if (file_types[i] == mhealth$filetype$sensor) {
+        v_max = max(v_max, max(temp_df))
+        v_min = min(v_min, min(temp_df))
+      }
     }
-  }
-  if (is.null(v_max) || is.null(v_min)) {
+    if (is.null(v_max) || is.null(v_min)) {
+      range = NULL
+    } else{
+      range = c(floor(v_min), ceiling(v_max))
+    }
+  }else{
     range = NULL
-  } else{
-    range = c(floor(v_min), ceiling(v_max))
   }
-
 
   # Get the original time zone
   tz = lubridate::tz(dfs[[1]][1, 1])
@@ -167,8 +170,11 @@ mhealth.plot_timeseries <- function(dfs,
           dfs[[i]][[col]] == seg[[col]]
         }))
         df = dfs[[i]][mask, ]
-        if (all(!mask))
+
+        if (all(!mask)){
           return(NA)
+        }
+
         if (i == 1) {
           title_label = stringr::str_c(df[1, t_cols], collapse = "-")
         }

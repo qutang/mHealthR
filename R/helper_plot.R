@@ -6,7 +6,9 @@
     cols = c(1, s_cols)
     df = df[cols]
     p = .plot.numeric_column(p, df)
-    p = p + ggplot2::ylim(range)
+    if(!is.null(range)){
+      p = p + ggplot2::ylim(range)
+    }
   } else if (file_type == mhealth$filetype$annotation) {
     cols = c(1, 2, 3, s_cols)
     df = df[cols]
