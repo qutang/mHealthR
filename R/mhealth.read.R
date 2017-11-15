@@ -33,7 +33,7 @@ mhealth.read = function(file, filetype) {
   colheaders = c(mhealth$column$TIMESTAMP)
   if (filetype == mhealth$filetype$sensor) {
     for (i in 2:ncols) {
-      coltypes = append(coltypes, list(col_number()))
+      coltypes = append(coltypes, list(col_double()))
     }
   } else if (filetype == mhealth$filetype$annotation) {
     coltypes = append(coltypes, list(date_format))
