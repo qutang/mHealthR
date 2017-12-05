@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -39,7 +39,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -86,8 +86,9 @@
 
 
     <pre class="usage"><span class='fu'>mhealth.plot_timeseries</span>(<span class='no'>dfs</span>, <span class='no'>file_types</span>, <span class='no'>select_cols</span>, <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>nrows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>text_annotation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>title_cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>xlabel_timeformat</span> <span class='kw'>=</span> <span class='st'>"%H:%M:%OS"</span>,
+  <span class='kw'>nrows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>text_annotation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>share_y</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -142,14 +143,14 @@
                         <span class='kw'>select_cols</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>)),
                         <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PID"</span>, <span class='st'>"ACTIVITY"</span>, <span class='st'>"LOCATION"</span>),
                         <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-1.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-13.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
 <span class='co'># we may also plot only selected axes</span>
 <span class='fu'>mhealth.plot_timeseries</span>(<span class='kw'>dfs</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='no'>example1</span>),
                         <span class='kw'>file_types</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sensor"</span>),
                         <span class='kw'>select_cols</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>2</span>,<span class='fl'>3</span>)),
                         <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PID"</span>, <span class='st'>"ACTIVITY"</span>, <span class='st'>"LOCATION"</span>),
                         <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-2.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-14.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
 <span class='co'># Set cols to be used as subtitle</span>
 <span class='fu'>mhealth.plot_timeseries</span>(<span class='kw'>dfs</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='no'>example1</span>),
                         <span class='kw'>file_types</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sensor"</span>),
@@ -157,7 +158,7 @@
                         <span class='kw'>title_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"ACTIVITY"</span>, <span class='st'>"LOCATION"</span>),
                         <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PID"</span>, <span class='st'>"ACTIVITY"</span>, <span class='st'>"LOCATION"</span>),
                         <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-3.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-15.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
 <span class='co'># Example 2: multiple accelerometer times series plot</span>
 <span class='no'>example2</span> <span class='kw'>=</span> <span class='no'>accelPA</span>[<span class='no'>accelPA</span>$<span class='no'>ACTIVITY</span> <span class='kw'>==</span> <span class='st'>"sitting"</span> <span class='kw'>|</span> <span class='no'>accelPA</span>$<span class='no'>ACTIVITY</span> <span class='kw'>==</span> <span class='st'>"5.5 mph"</span>,]
 <span class='fu'>head</span>(<span class='no'>example2</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt;       HEADER_TIME_STAMP X_ACCELERATION_METERS_PER_SECOND_SQUARED
@@ -177,8 +178,8 @@
                         <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PID"</span>, <span class='st'>"ACTIVITY"</span>, <span class='st'>"LOCATION"</span>),
                         <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-4.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; 
-#&gt; [[2]]</div><div class='img'><img src='mhealth.plot_timeseries-5.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-16.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; 
+#&gt; [[2]]</div><div class='img'><img src='mhealth.plot_timeseries-17.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div><div class='input'>
 <span class='co'># Example 3: multiple accelerometer examples on the same plot, note that group cols is set to be ONLY PID, because OTHER cols have different values, if we want to put them on the same plot, they should be have the same group values at least</span>
 <span class='no'>example3a</span> <span class='kw'>=</span> <span class='no'>accelPA</span>[<span class='no'>accelPA</span>$<span class='no'>ACTIVITY</span> <span class='kw'>==</span> <span class='st'>"jumping jacks"</span>,]
 <span class='no'>example3b</span> <span class='kw'>=</span> <span class='no'>accelPA</span>[<span class='no'>accelPA</span>$<span class='no'>ACTIVITY</span> <span class='kw'>==</span> <span class='st'>"sitting"</span>,]
@@ -188,7 +189,7 @@
 <span class='kw'>group_cols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PID"</span>),
 <span class='kw'>as_gg_list</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-6.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div></pre>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='mhealth.plot_timeseries-18.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -203,7 +204,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Qu Tang.</p>
+  <p>Developed by <a href='http://qutang.github.io'>Qu Tang</a>.</p>
 </div>
 
 <div class="pkgdown">

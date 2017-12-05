@@ -38,9 +38,17 @@ articles:
     contents:
     - mhealth-object
 
+authors:
+  Qu Tang:
+    href: http://qutang.github.io
+
+template:
+  params:
+    bootswatch: readable
+
 navbar:
   title: mHealthR
-  type: default
+  type: inverse
   left:
   - text: Home
     href: index.html
