@@ -59,7 +59,7 @@ mhealth.plot_timeseries <- function(dfs,
                                     title_cols = NULL,
                                     ncols = 4,
                                     xlabel_timeformat = "%H:%M:%OS",
-                                    nrows = NULL, as_gg_list = FALSE, text_annotation=FALSE, share_y = TRUE) {
+                                    nrows = NULL, as_gg_list = FALSE, text_annotation=FALSE, share_y = TRUE, parallel = FALSE) {
   # validate input arguments
   if (length(dfs) > 1) {
     stopifnot(is.list(dfs))
@@ -114,7 +114,7 @@ mhealth.plot_timeseries <- function(dfs,
     return(p)
   } else if (is.character(group_cols)) {
     # subplots
-    seg_list = lapply(group_cols, function(col) {
+    seg_list = llply(group_cols, function(col) {
       seg = sapply(dfs, function(df) {
         return(unique(df[[col]]))
       }, simplify = FALSE)
@@ -122,7 +122,7 @@ mhealth.plot_timeseries <- function(dfs,
         unique(c(x, y))
       }, seg[[1]])
       return(seg)
-    })
+    }, .progress = progress_text(), .parallel = parallel)
     segs = expand.grid(seg_list, stringsAsFactors = FALSE)
     names(segs) = group_cols
 
@@ -149,7 +149,7 @@ mhealth.plot_timeseries <- function(dfs,
       x_max = as.POSIXct(x_max, origin = "1970-01-01", tz = tz)
       duration = as.numeric(x_max - x_min, units = "secs")
       return(duration)
-    })
+    }, .progress = progress_text(), .parallel = parallel)
 
     common_duration = max(unlist(durations))
 
@@ -215,7 +215,7 @@ mhealth.plot_timeseries <- function(dfs,
         strip.background = element_blank()
       )
       return(p)
-    })
+    }, .progress = progress_text(), .parallel = parallel)
     p_result = list()
     i = 1
     for (p in p_list) {
